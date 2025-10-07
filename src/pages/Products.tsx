@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Radar, Zap, Target, Eye, Lock } from "lucide-react";
+import { ArrowRight, Shield, Radar, Zap, Target, Cpu, Lock } from "lucide-react";
 import stravexHero from "@/assets/stravex-hero.png";
 
 const Products = () => {
@@ -34,6 +34,15 @@ const Products = () => {
       features: ["Automated Response", "Threat Prioritization", "Modular Design", "Remote Operation"],
       category: "Defense Systems",
       status: "Available"
+    },
+    {
+      id: "tactical-drone-x1",
+      name: "TACTICAL DRONE X1",
+      subtitle: "AERIAL RECONNAISSANCE",
+      description: "Advanced unmanned aerial vehicle designed for tactical reconnaissance and surveillance operations with extended flight time and stealth capabilities.",
+      features: ["Extended Flight Time", "Stealth Technology", "High-Resolution Imaging", "Autonomous Navigation"],
+      category: "Aerial Systems",
+      status: "Available"
     }
   ];
 
@@ -54,8 +63,8 @@ const Products = () => {
       description: "Accurate threat engagement"
     },
     {
-      icon: Eye,
-      title: "Surveillance Solutions",
+      icon: Cpu,
+      title: "Drone Parts",
       description: "Real-time monitoring capabilities"
     },
     {

@@ -2,13 +2,14 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
+import { getContactSubmissions, deleteContactSubmission } from "@/integrations/firebase/contactService";
 import { RefreshCw, Mail, User, MessageSquare, Calendar, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface ContactSubmission {
   id: string;
   name: string;
+  company: string;
   email: string;
   message: string;
   created_at: string;
@@ -24,16 +25,8 @@ const Admin = () => {
   const fetchSubmissions = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('contact_submissions')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw error;
-      }
-
-      setSubmissions(data || []);
+      const data = await getContactSubmissions();
+      setSubmissions(data);
     } catch (error) {
       console.error('Error fetching submissions:', error);
       toast({
@@ -49,15 +42,7 @@ const Admin = () => {
   const deleteSubmission = async (id: string) => {
     try {
       setDeleting(id);
-      const { error } = await supabase
-        .from('contact_submissions')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        throw error;
-      }
-
+      await deleteContactSubmission(id);
       setSubmissions(prev => prev.filter(sub => sub.id !== id));
       toast({
         title: "Success",
@@ -182,6 +167,9 @@ const Admin = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-foreground">{submission.name}</h3>
+                            {submission.company && (
+                              <p className="text-sm text-primary font-medium">{submission.company}</p>
+                            )}
                             <p className="text-sm text-muted-foreground">{submission.email}</p>
                           </div>
                         </div>

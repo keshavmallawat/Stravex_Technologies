@@ -13,6 +13,8 @@ const Navigation = () => {
     { name: "Products", path: "/products" },
     { name: "Team", path: "/team" },
     { name: "Technologies", path: "/technologies" },
+    { name: "Blog", path: "/blog" },
+    { name: "Careers", path: "/careers" },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -24,10 +26,10 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
+            <div className="font-heading tracking-wide text-2xl md:text-3xl font-extrabold bg-gradient-primary bg-clip-text text-transparent">
               STRAVEX
             </div>
-            <div className="text-sm text-muted-foreground hidden sm:block">
+            <div className="text-xs md:text-sm text-muted-foreground hidden sm:block">
               TECHNOLOGIES
             </div>
           </Link>
