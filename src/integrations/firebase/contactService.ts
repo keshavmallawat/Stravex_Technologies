@@ -8,7 +8,12 @@ import {
   orderBy, 
   serverTimestamp,
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   Timestamp 
+=======
+  Timestamp,
+  onSnapshot
+>>>>>>> Stashed changes
 =======
   Timestamp,
   onSnapshot
@@ -63,7 +68,10 @@ export const getContactSubmissions = async (): Promise<ContactSubmission[]> => {
 };
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 // Subscribe to real-time updates for contact submissions
 export const subscribeContactSubmissions = (
   callback: (submissions: ContactSubmission[]) => void
@@ -91,6 +99,9 @@ export const subscribeContactSubmissions = (
   return unsubscribe;
 };
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 // Delete a contact submission
 export const deleteContactSubmission = async (id: string): Promise<void> => {

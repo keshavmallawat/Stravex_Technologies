@@ -9,7 +9,11 @@ const Team = () => {
     {
       name: "Krishna Mallawat",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       role: "Founder & CEO",
+=======
+      role: "CEO & Co-founder",
+>>>>>>> Stashed changes
 =======
       role: "CEO & Co-founder",
 >>>>>>> Stashed changes
@@ -22,8 +26,13 @@ const Team = () => {
     {
       name: "Atharva Dalvi",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       role: "Founder & COO",
       department: "Operations",
+=======
+      role: "CTO & Co-founder",
+      department: "Technology",
+>>>>>>> Stashed changes
 =======
       role: "CTO & Co-founder",
       department: "Technology",
@@ -36,8 +45,13 @@ const Team = () => {
     {
       name: "Harsh Patil",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       role: "Founder & CTO",
       department: "Technology",
+=======
+      role: "COO & Co-founder",
+      department: "Operations",
+>>>>>>> Stashed changes
 =======
       role: "COO & Co-founder",
       department: "Operations",

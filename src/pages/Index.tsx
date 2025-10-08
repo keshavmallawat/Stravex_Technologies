@@ -123,8 +123,13 @@ const Index = () => {
                   <div className="text-center">
                     <img
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
                       src="/sine-iitb.png"
                       alt="SINE IIT Bombay - Business Incubator"
+=======
+                      src="/iitb-logo.png"
+                      alt="IIT Bombay - SINE Business Incubator"
+>>>>>>> Stashed changes
 =======
                       src="/iitb-logo.png"
                       alt="IIT Bombay - SINE Business Incubator"

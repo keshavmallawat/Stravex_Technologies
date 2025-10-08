@@ -58,6 +58,7 @@ These drones combine high-speed maneuverability with real-time FPV control, offe
     },
     {
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       id: "guardian-shield",
       name: "GUARDIAN SHIELD",
       subtitle: "ACTIVE PROTECTION",
@@ -75,6 +76,8 @@ These drones combine high-speed maneuverability with real-time FPV control, offe
       category: "Aerial Systems",
       status: "Available"
 =======
+=======
+>>>>>>> Stashed changes
       id: "indigenous-fc-esc",
       name: "Indigenous Flight Controller & ESC",
       subtitle: "Made‑in‑India Core Electronics",
@@ -111,6 +114,9 @@ These systems merge the stability of multirotors with the range and endurance of
       ],
       category: "Long‑Range Platforms",
       status: "Research"
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
   ];

@@ -1,4 +1,5 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
@@ -17,10 +18,15 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize Firestore
 =======
+=======
+>>>>>>> Stashed changes
 import { getFirestore } from 'firebase/firestore';
 import app from '@/lib/firebase';
 
 // Reuse the already-initialized Firebase app from src/lib/firebase.ts
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 export const db = getFirestore(app);
 

@@ -7,7 +7,11 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { createContactSubmission } from "@/integrations/firebase/contactService";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+=======
+import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
+>>>>>>> Stashed changes
 =======
 import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
 >>>>>>> Stashed changes

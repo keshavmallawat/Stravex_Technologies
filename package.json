@@ -49,6 +49,10 @@
     "dotenv": "^17.2.3",
     "embla-carousel-react": "^8.6.0",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    "file-saver": "^2.0.5",
+>>>>>>> Stashed changes
 =======
     "file-saver": "^2.0.5",
 >>>>>>> Stashed changes

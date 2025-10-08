@@ -100,7 +100,11 @@ const Careers = () => {
 
   return (
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+=======
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+>>>>>>> Stashed changes
 =======
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
 >>>>>>> Stashed changes

@@ -7,6 +7,11 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import Navigation from "./components/Navigation";
 import ScrollToTop from "./components/ScrollToTop";
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLayout from "./components/admin/AdminLayout";
+>>>>>>> Stashed changes
 =======
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/admin/AdminLayout";
@@ -34,6 +39,7 @@ const App = () => (
       <Toaster />
       <Sonner />
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
       <BrowserRouter>
         <ScrollToTop />
         <Navigation />
@@ -52,6 +58,8 @@ const App = () => (
         </Routes>
       </BrowserRouter>
 =======
+=======
+>>>>>>> Stashed changes
       <AuthProvider>
         <BrowserRouter>
           <ScrollToTop />
@@ -84,6 +92,9 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </AuthProvider>
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     </TooltipProvider>
   </QueryClientProvider>
