@@ -53,4 +53,4 @@ VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_key
 
 ## 📄 License
 
-© 2024 Stravex Technologies. All rights reserved.
+© 2025 Stravex Technologies. All rights reserved.
