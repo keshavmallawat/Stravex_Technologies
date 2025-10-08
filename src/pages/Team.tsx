@@ -8,7 +8,11 @@ const Team = () => {
   const teamMembers = [
     {
       name: "Krishna Mallawat",
+<<<<<<< Updated upstream
       role: "Founder & CEO",
+=======
+      role: "CEO & Co-founder",
+>>>>>>> Stashed changes
       department: "Leadership",
       bio: "Visionary leader driving Stravex Technologies' mission to revolutionize tactical defense solutions through innovative technology and strategic partnerships.",
       expertise: ["Strategic Leadership", "Business Development", "Innovation"],
@@ -17,8 +21,13 @@ const Team = () => {
     },
     {
       name: "Atharva Dalvi",
+<<<<<<< Updated upstream
       role: "Founder & COO",
       department: "Operations",
+=======
+      role: "CTO & Co-founder",
+      department: "Technology",
+>>>>>>> Stashed changes
       bio: "Operations expert ensuring seamless execution of tactical solutions with focus on quality, efficiency, and mission-critical reliability.",
       expertise: ["Operations Management", "Quality Assurance", "Strategic Planning"],
       image: null,
@@ -26,8 +35,13 @@ const Team = () => {
     },
     {
       name: "Harsh Patil",
+<<<<<<< Updated upstream
       role: "Founder & CTO",
       department: "Technology",
+=======
+      role: "COO & Co-founder",
+      department: "Operations",
+>>>>>>> Stashed changes
       bio: "Technical architect and innovation catalyst, leading the development of cutting-edge tactical systems and advanced defense technologies.",
       expertise: ["Technology Strategy", "System Architecture", "R&D Leadership"],
       image: null,
@@ -42,7 +56,7 @@ const Team = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">

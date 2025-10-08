@@ -4,7 +4,7 @@ import { Shield, Target, Zap, Users, Globe, Factory, Rocket, Award, Star, CheckC
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
@@ -23,8 +23,17 @@ const About = () => {
               {/* Made in India Badges */}
               <div className="flex flex-wrap justify-center gap-4">
                 <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-500/10 to-orange-600/10 border border-orange-500/20 rounded-lg px-4 py-2">
+<<<<<<< Updated upstream
                   <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-xs">🇮🇳</span>
+=======
+                  <div className="w-8 h-8 overflow-hidden rounded-full">
+                    <img
+                      src="/indian-flag.png.jpg"
+                      alt="Indian Flag"
+                      className="w-full h-full object-cover object-center scale-150"
+                    />
+>>>>>>> Stashed changes
                   </div>
                   <div className="text-sm">
                     <div className="text-orange-400 font-bold">Make in India</div>
@@ -155,8 +164,17 @@ const About = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="flex flex-col items-center space-y-3 p-4 bg-white/5 rounded-lg border border-orange-500/10">
+<<<<<<< Updated upstream
                   <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
                     <span className="text-white font-bold text-lg">🇮🇳</span>
+=======
+                  <div className="w-12 h-12 overflow-hidden rounded-full">
+                    <img
+                      src="/indian-flag.png.jpg"
+                      alt="Indian Flag"
+                      className="w-full h-full object-cover object-center scale-150"
+                    />
+>>>>>>> Stashed changes
                   </div>
                   <div className="text-center">
                     <h4 className="font-bold text-foreground">Make in India</h4>

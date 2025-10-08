@@ -7,7 +7,12 @@ import {
   query, 
   orderBy, 
   serverTimestamp,
+<<<<<<< Updated upstream
   Timestamp 
+=======
+  Timestamp,
+  onSnapshot
+>>>>>>> Stashed changes
 } from 'firebase/firestore';
 import { db } from './config';
 import type { ContactSubmission, ContactSubmissionCreate } from './types';
@@ -57,6 +62,36 @@ export const getContactSubmissions = async (): Promise<ContactSubmission[]> => {
   }
 };
 
+<<<<<<< Updated upstream
+=======
+// Subscribe to real-time updates for contact submissions
+export const subscribeContactSubmissions = (
+  callback: (submissions: ContactSubmission[]) => void
+): (() => void) => {
+  const q = query(collection(db, COLLECTION_NAME), orderBy('created_at', 'desc'));
+  const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const result: ContactSubmission[] = querySnapshot.docs.map((d) => {
+      const data = d.data();
+      return {
+        id: d.id,
+        name: data.name,
+        company: data.company || "",
+        email: data.email,
+        message: data.message,
+        created_at: data.created_at instanceof Timestamp 
+          ? data.created_at.toDate().toISOString() 
+          : data.created_at,
+        updated_at: data.updated_at instanceof Timestamp 
+          ? data.updated_at.toDate().toISOString() 
+          : data.updated_at
+      };
+    });
+    callback(result);
+  });
+  return unsubscribe;
+};
+
+>>>>>>> Stashed changes
 // Delete a contact submission
 export const deleteContactSubmission = async (id: string): Promise<void> => {
   try {

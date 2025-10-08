@@ -43,7 +43,11 @@ const demoPosts: BlogPost[] = [
 
 const Blogs = () => {
   return (
+<<<<<<< Updated upstream
     <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+=======
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+>>>>>>> Stashed changes
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
         <header className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">

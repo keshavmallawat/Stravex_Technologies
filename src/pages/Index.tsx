@@ -92,7 +92,7 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-secondary">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-card border-t border-border">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground">
             Ready to Experience the Future?
@@ -102,8 +102,9 @@ const Index = () => {
           </p>
           <Button 
             asChild 
-            size="xl" 
-            className="bg-gradient-primary hover:shadow-glow transition-all duration-300"
+            size="lg" 
+            variant="outline"
+            className="border-border hover:bg-secondary"
           >
             <Link to="/contact">
               Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
@@ -121,8 +122,13 @@ const Index = () => {
                 <div className="p-6">
                   <div className="text-center">
                     <img
+<<<<<<< Updated upstream
                       src="/sine-iitb.png"
                       alt="SINE IIT Bombay - Business Incubator"
+=======
+                      src="/iitb-logo.png"
+                      alt="IIT Bombay - SINE Business Incubator"
+>>>>>>> Stashed changes
                       className="h-24 sm:h-28 md:h-32 w-auto object-contain"
                     />
                   </div>

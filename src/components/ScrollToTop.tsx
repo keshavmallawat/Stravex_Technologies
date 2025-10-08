@@ -15,3 +15,8 @@ export default ScrollToTop;
 
 
 
+<<<<<<< Updated upstream
+=======
+
+
+>>>>>>> Stashed changes

@@ -1,0 +1,33 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Blog images - only admins can upload/manage
+    match /blog-images/{imageId} {
+      allow read: if true; // Public can view blog images
+      allow write: if isAdmin(); // Only admins can upload/delete
+    }
+    
+    // Profile images - only admins can upload/manage
+    match /profile-images/{imageId} {
+      allow read: if true; // Public can view profile images
+      allow write: if isAdmin(); // Only admins can upload/delete
+    }
+    
+    // General uploads - only admins can upload/manage
+    match /uploads/{allPaths=**} {
+      allow read: if true; // Public can view uploads
+      allow write: if isAdmin(); // Only admins can upload/delete
+    }
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && 
+             request.auth.token.email in [
+               'boss1@company.com',
+               'boss2@company.com'
+             ];
+    }
+  }
+}
+
+

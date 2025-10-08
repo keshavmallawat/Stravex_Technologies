@@ -6,7 +6,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { createContactSubmission } from "@/integrations/firebase/contactService";
+<<<<<<< Updated upstream
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+=======
+import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
+>>>>>>> Stashed changes
 import { z } from "zod";
 
 const contactSchema = z.object({
@@ -30,20 +34,20 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      details: ["info@stravex.tech", "support@stravex.tech"],
+      details: ["info@stravextechnologies.com"],
       description: "Get in touch via email"
     },
     {
       icon: Phone,
       title: "Phone",
-      details: ["+1 (555) 123-4567", "+1 (555) 123-4568"],
+      details: ["+91 84258 02309"],
       description: "Call us during business hours"
     },
     {
       icon: MapPin,
-      title: "Location",
-      details: ["1234 Technology Blvd", "Defense District, DC 20001"],
-      description: "Visit our headquarters"
+      title: "Address",
+      details: ["Vashi, Navi Mumbai, Maharashtra, India"],
+      description: "Visit our office"
     },
     {
       icon: Clock,
@@ -110,7 +114,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">

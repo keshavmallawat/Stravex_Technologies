@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { getContactSubmissions, deleteContactSubmission } from "@/integrations/firebase/contactService";
 import { RefreshCw, Mail, User, MessageSquare, Calendar, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ContactSubmission {
   id: string;
@@ -21,6 +22,7 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
   const { toast } = useToast();
+  const { logout, user } = useAuth();
 
   const fetchSubmissions = async () => {
     try {
@@ -72,16 +74,30 @@ const Admin = () => {
     <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-8 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Admin{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Dashboard
-            </span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Manage contact form submissions and view analytics
-          </p>
+        <div className="mb-8 animate-fade-in">
+          <div className="flex items-start justify-between gap-4">
+            <div className="text-center sm:text-left flex-1">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
+                Admin{" "}
+                <span className="bg-gradient-primary bg-clip-text text-transparent">
+                  Dashboard
+                </span>
+              </h1>
+              <p className="text-xl text-muted-foreground">
+                Manage contact form submissions and view analytics
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              {user?.email && (
+                <Badge variant="outline" className="hidden sm:inline">
+                  {user.email}
+                </Badge>
+              )}
+              <Button variant="outline" onClick={logout}>
+                Log out
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Stats Cards */}
