@@ -99,7 +99,19 @@ const Careers = () => {
   ];
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+    <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+=======
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+>>>>>>> Stashed changes
+=======
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">

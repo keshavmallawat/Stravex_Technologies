@@ -48,7 +48,18 @@
     "date-fns": "^3.6.0",
     "dotenv": "^17.2.3",
     "embla-carousel-react": "^8.6.0",
+<<<<<<< HEAD
     "file-saver": "^2.0.5",
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+    "file-saver": "^2.0.5",
+>>>>>>> Stashed changes
+=======
+    "file-saver": "^2.0.5",
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
     "firebase": "^12.3.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
