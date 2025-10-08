@@ -2,38 +2,97 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Radar, Zap, Target, Eye, Lock } from "lucide-react";
+import { ArrowRight, Shield, Radar, Zap, Target, Cpu, Lock } from "lucide-react";
 import stravexHero from "@/assets/stravex-hero.png";
 
 const Products = () => {
   const products = [
     {
       id: "agni-strike",
-      name: "AGNI STRIKE",
-      subtitle: "DETECT & INTERCEPT",
-      description: "Advanced tactical detection and interception system with real-time threat assessment capabilities.",
+      name: "AgniStrike",
+      subtitle: "Next‑Gen Drone Interceptor",
+      description: `What if a silent predator pierced the skies over a vital border outpost or a high-profile VIP convoy—slicing through at over 200 km/h, its payload not just a camera, but a potential catastrophe?
+
+At Stravex Technologies, we’re confronting this threat head-on. AgniStrike is a revolutionary, compact, and portable drone interception system engineered for rapid response and field deployment. Weighing under 2.5 kg, it fits effortlessly into a backpack and can be operated by any trained personnel.
+
+Using AI-driven optical detection, AgniStrike analyzes an incoming drone’s speed, trajectory, intent, and vulnerabilities, locking onto the target with precision accuracy. With a single press, it launches a high-speed interceptor that rockets at 200–250 km/h to neutralize the threat mid-air through kinetic impact or advanced countermeasures — and can be swiftly reloaded for subsequent engagements.
+
+Built entirely in India, AgniStrike redefines tactical defense, offering unmatched mobility, intelligence, and reliability to protect borders, convoys, and critical infrastructure.
+➡ Point. Analyze. Press. Protect.`,
       image: stravexHero,
-      features: ["Real-time Detection", "Precision Targeting", "Rapid Response", "Carbon Fiber Construction"],
-      category: "Tactical Systems",
+      features: [
+        "AI-driven optical detection",
+        "200–250 km/h high-speed interceptor",
+        "Under 2.5 kg, backpack portable",
+        "Kinetic and advanced countermeasures",
+        "Rapid reload for multiple engagements"
+      ],
+      category: "Tactical Interception",
       status: "Available"
     },
     {
-      id: "sentinel-radar",
-      name: "SENTINEL RADAR",
-      subtitle: "SURVEILLANCE & TRACKING",
-      description: "Next-generation radar system for comprehensive area surveillance and multi-target tracking.",
-      features: ["360° Coverage", "Multi-Target Tracking", "Weather Resistant", "AI-Powered Analysis"],
-      category: "Surveillance",
+      id: "fpv-drones",
+      name: "FPV Drones",
+      subtitle: "Swappable Payload Platforms",
+      description: `At Stravex Technologies, we’re engineering a new generation of FPV (First-Person View) drones with modular swappable payload systems, designed for a wide range of tactical and operational missions.
+
+Our FPV platforms — available in 5-inch, 7-inch, and 10-inch configurations — are optimized for agility, endurance, and payload flexibility. The quick-swap payload mechanism enables operators to rapidly switch between mission-specific modules such as:
+
+Ammunition or supply drop units
+
+Kamikaze or impact payloads
+
+Surveillance and sensor modules
+
+These drones combine high-speed maneuverability with real-time FPV control, offering precise, responsive performance in defense, reconnaissance, and field operations.`,
+      image: stravexHero,
+      features: [
+        "5-inch, 7-inch, 10-inch configurations",
+        "Quick-swap payload mechanism",
+        "Supply drop, impact, surveillance modules",
+        "High-speed, precise FPV control",
+        "Agility and endurance for field ops"
+      ],
+      category: "Aerial Platforms",
       status: "Development"
     },
     {
-      id: "guardian-shield",
-      name: "GUARDIAN SHIELD",
-      subtitle: "ACTIVE PROTECTION",
-      description: "Automated defense system with intelligent threat prioritization and countermeasure deployment.",
-      features: ["Automated Response", "Threat Prioritization", "Modular Design", "Remote Operation"],
-      category: "Defense Systems",
-      status: "Available"
+      id: "indigenous-fc-esc",
+      name: "Indigenous Flight Controller & ESC",
+      subtitle: "Made‑in‑India Core Electronics",
+      description: `Stravex Technologies is developing a fully indigenous Flight Controller (FC) and Electronic Speed Controller (ESC) designed for commercial and tactical drone applications.
+
+Our next-generation FC integrates AI-based stabilization, adaptive flight algorithms, and real-time telemetry processing for unmatched flight precision and safety. Complementing it, our custom-built ESC ensures efficient power delivery, advanced motor control, and system reliability across various drone categories — from FPV and industrial drones to logistics and surveillance platforms.
+
+Together, these systems form the core of our Made-in-India drone ecosystem, providing a secure, high-performance, and scalable foundation for the country’s growing unmanned aviation market.`,
+      image: stravexHero,
+      features: [
+        "AI-based stabilization",
+        "Adaptive flight algorithms",
+        "Real-time telemetry processing",
+        "Efficient, reliable ESC power control",
+        "Scalable across FPV, industrial, logistics"
+      ],
+      category: "Avionics",
+      status: "In Development"
+    },
+    {
+      id: "vtol-drones",
+      name: "VTOL Drones",
+      subtitle: "Vertical Take‑Off and Landing",
+      description: `Expanding the horizon of aerial innovation, Stravex Technologies is developing VTOL (Vertical Take-Off and Landing) drones for long-range, hybrid missions.
+
+These systems merge the stability of multirotors with the range and endurance of fixed-wing aircraft, enabling seamless transitions between hover and forward flight. Designed for defense, logistics, and reconnaissance, our VTOL platforms ensure superior adaptability, payload capacity, and operational range, even in challenging environments.`,
+      image: stravexHero,
+      features: [
+        "Seamless hover to forward flight",
+        "Long-range, long-endurance missions",
+        "Hybrid multirotor + fixed-wing",
+        "High payload capacity",
+        "Adaptable to challenging environments"
+      ],
+      category: "Long‑Range Platforms",
+      status: "Research"
     }
   ];
 
@@ -54,8 +113,8 @@ const Products = () => {
       description: "Accurate threat engagement"
     },
     {
-      icon: Eye,
-      title: "Surveillance Solutions",
+      icon: Cpu,
+      title: "Drone Parts",
       description: "Real-time monitoring capabilities"
     },
     {
@@ -71,7 +130,7 @@ const Products = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">

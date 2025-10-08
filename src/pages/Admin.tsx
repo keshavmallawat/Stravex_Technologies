@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
+import { getContactSubmissions, deleteContactSubmission } from "@/integrations/firebase/contactService";
 import { RefreshCw, Mail, User, MessageSquare, Calendar, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface ContactSubmission {
   id: string;
   name: string;
+  company: string;
   email: string;
   message: string;
   created_at: string;
@@ -20,20 +22,13 @@ const Admin = () => {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<string | null>(null);
   const { toast } = useToast();
+  const { logout, user } = useAuth();
 
   const fetchSubmissions = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('contact_submissions')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        throw error;
-      }
-
-      setSubmissions(data || []);
+      const data = await getContactSubmissions();
+      setSubmissions(data);
     } catch (error) {
       console.error('Error fetching submissions:', error);
       toast({
@@ -49,15 +44,7 @@ const Admin = () => {
   const deleteSubmission = async (id: string) => {
     try {
       setDeleting(id);
-      const { error } = await supabase
-        .from('contact_submissions')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        throw error;
-      }
-
+      await deleteContactSubmission(id);
       setSubmissions(prev => prev.filter(sub => sub.id !== id));
       toast({
         title: "Success",
@@ -87,16 +74,30 @@ const Admin = () => {
     <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-8 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Admin{" "}
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
-              Dashboard
-            </span>
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Manage contact form submissions and view analytics
-          </p>
+        <div className="mb-8 animate-fade-in">
+          <div className="flex items-start justify-between gap-4">
+            <div className="text-center sm:text-left flex-1">
+              <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
+                Admin{" "}
+                <span className="bg-gradient-primary bg-clip-text text-transparent">
+                  Dashboard
+                </span>
+              </h1>
+              <p className="text-xl text-muted-foreground">
+                Manage contact form submissions and view analytics
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              {user?.email && (
+                <Badge variant="outline" className="hidden sm:inline">
+                  {user.email}
+                </Badge>
+              )}
+              <Button variant="outline" onClick={logout}>
+                Log out
+              </Button>
+            </div>
+          </div>
         </div>
 
         {/* Stats Cards */}
@@ -182,6 +183,9 @@ const Admin = () => {
                           </div>
                           <div>
                             <h3 className="font-semibold text-foreground">{submission.name}</h3>
+                            {submission.company && (
+                              <p className="text-sm text-primary font-medium">{submission.company}</p>
+                            )}
                             <p className="text-sm text-muted-foreground">{submission.email}</p>
                           </div>
                         </div>

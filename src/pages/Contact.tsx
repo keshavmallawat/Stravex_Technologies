@@ -5,12 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+import { createContactSubmission } from "@/integrations/firebase/contactService";
+import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
 import { z } from "zod";
 
 const contactSchema = z.object({
   name: z.string().trim().nonempty({ message: "Name is required" }).max(100, { message: "Name must be less than 100 characters" }),
+  company: z.string().trim().max(100, { message: "Company name must be less than 100 characters" }).optional(),
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255, { message: "Email must be less than 255 characters" }),
   message: z.string().trim().nonempty({ message: "Message is required" }).max(1000, { message: "Message must be less than 1000 characters" })
 });
@@ -18,6 +19,7 @@ const contactSchema = z.object({
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
+    company: "",
     email: "",
     message: ""
   });
@@ -28,20 +30,20 @@ const Contact = () => {
     {
       icon: Mail,
       title: "Email",
-      details: ["info@stravex.tech", "support@stravex.tech"],
+      details: ["info@stravextechnologies.com"],
       description: "Get in touch via email"
     },
     {
       icon: Phone,
       title: "Phone",
-      details: ["+1 (555) 123-4567", "+1 (555) 123-4568"],
+      details: ["+91 84258 02309"],
       description: "Call us during business hours"
     },
     {
       icon: MapPin,
-      title: "Location",
-      details: ["1234 Technology Blvd", "Defense District, DC 20001"],
-      description: "Visit our headquarters"
+      title: "Address",
+      details: ["Vashi, Navi Mumbai, Maharashtra, India"],
+      description: "Visit our office"
     },
     {
       icon: Clock,
@@ -67,18 +69,13 @@ const Contact = () => {
       // Validate form data
       const validatedData = contactSchema.parse(formData);
 
-      // Submit to Supabase
-      const { error } = await supabase
-        .from('contact_submissions')
-        .insert([{
-          name: validatedData.name,
-          email: validatedData.email,
-          message: validatedData.message
-        }]);
-
-      if (error) {
-        throw error;
-      }
+      // Submit to Firebase
+      await createContactSubmission({
+        name: validatedData.name,
+        company: validatedData.company || "",
+        email: validatedData.email,
+        message: validatedData.message
+      });
 
       // Success
       toast({
@@ -87,7 +84,7 @@ const Contact = () => {
       });
 
       // Reset form
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", company: "", email: "", message: "" });
 
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -113,7 +110,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
@@ -154,6 +151,22 @@ const Contact = () => {
                     maxLength={100}
                     className="bg-input border-border text-foreground"
                     placeholder="Enter your full name"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="company" className="text-sm font-medium text-foreground">
+                    Company Name
+                  </Label>
+                  <Input
+                    id="company"
+                    name="company"
+                    type="text"
+                    value={formData.company}
+                    onChange={handleInputChange}
+                    maxLength={100}
+                    className="bg-input border-border text-foreground"
+                    placeholder="Enter your company name (optional)"
                   />
                 </div>
 
@@ -236,42 +249,6 @@ const Contact = () => {
               </div>
             </Card>
 
-            {/* Additional Information */}
-            <Card className="p-8 bg-gradient-secondary border-border">
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold text-foreground">Why Contact Us?</h3>
-                <div className="space-y-3 text-muted-foreground">
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0"></div>
-                    <p className="text-sm">Technical consultations and system requirements analysis</p>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0"></div>
-                    <p className="text-sm">Product demonstrations and capability briefings</p>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0"></div>
-                    <p className="text-sm">Partnership opportunities and collaboration discussions</p>
-                  </div>
-                  <div className="flex items-start space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full mt-2 shrink-0"></div>
-                    <p className="text-sm">Support for existing systems and maintenance</p>
-                  </div>
-                </div>
-              </div>
-            </Card>
-
-            {/* Security Notice */}
-            <Card className="p-6 bg-card border-border">
-              <div className="space-y-3">
-                <h4 className="font-semibold text-foreground text-sm">Security Notice</h4>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  All communications are secure and confidential. For classified or sensitive discussions, 
-                  please contact us directly to arrange secure communication channels. We comply with all 
-                  relevant export control regulations and security protocols.
-                </p>
-              </div>
-            </Card>
           </div>
         </div>
       </div>
