@@ -7,65 +7,42 @@ import { Linkedin, Mail, User } from "lucide-react";
 const Team = () => {
   const teamMembers = [
     {
-      name: "Dr. Sarah Chen",
-      role: "Chief Technology Officer",
-      department: "Engineering",
-      bio: "Leading tactical systems innovation with 15+ years in defense technology. PhD in Advanced Materials Engineering.",
-      expertise: ["Tactical Systems", "Materials Science", "R&D Leadership"],
-      image: null
+      name: "Krishna Mallawat",
+      role: "CEO & Co-founder",
+      department: "Leadership",
+      bio: "Visionary leader driving Stravex Technologies' mission to revolutionize tactical defense solutions through innovative technology and strategic partnerships.",
+      expertise: ["Strategic Leadership", "Business Development", "Innovation"],
+      image: null,
+      linkedin: "https://www.linkedin.com/in/krishna-mallawat-72061317b/"
     },
     {
-      name: "Marcus Rodriguez",
-      role: "VP of Operations",
-      department: "Operations", 
-      bio: "Former military operations specialist with extensive field experience in tactical deployment and system integration.",
-      expertise: ["Operations Management", "Field Deployment", "System Integration"],
-      image: null
+      name: "Atharva Dalvi",
+      role: "CTO & Co-founder",
+      department: "Technology",
+      bio: "Operations expert ensuring seamless execution of tactical solutions with focus on quality, efficiency, and mission-critical reliability.",
+      expertise: ["Operations Management", "Quality Assurance", "Strategic Planning"],
+      image: null,
+      linkedin: "https://www.linkedin.com/in/atharvadalvi010/"
     },
     {
-      name: "Dr. Alex Thompson",
-      role: "Senior Research Engineer",
-      department: "R&D",
-      bio: "Specializing in detection algorithms and AI-powered threat assessment systems. Former DARPA researcher.",
-      expertise: ["AI Development", "Detection Systems", "Algorithm Design"],
-      image: null
-    },
-    {
-      name: "Lisa Park",
-      role: "Director of Product Development",
-      department: "Product",
-      bio: "Product strategist with deep understanding of tactical requirements and user experience in defense applications.",
-      expertise: ["Product Strategy", "User Experience", "Market Analysis"],
-      image: null
-    },
-    {
-      name: "James Wilson",
-      role: "Lead Systems Architect",
-      department: "Engineering",
-      bio: "Architect of next-generation tactical systems with focus on scalability and real-time performance optimization.",
-      expertise: ["System Architecture", "Performance Optimization", "Technical Leadership"],
-      image: null
-    },
-    {
-      name: "Dr. Maria Santos",
-      role: "Head of Quality Assurance",
-      department: "QA",
-      bio: "Ensuring mission-critical reliability through comprehensive testing protocols and quality management systems.",
-      expertise: ["Quality Management", "Testing Protocols", "Compliance"],
-      image: null
+      name: "Harsh Patil",
+      role: "COO & Co-founder",
+      department: "Operations",
+      bio: "Technical architect and innovation catalyst, leading the development of cutting-edge tactical systems and advanced defense technologies.",
+      expertise: ["Technology Strategy", "System Architecture", "R&D Leadership"],
+      image: null,
+      linkedin: "https://www.linkedin.com/in/harsh-patil-33049130a/"
     }
   ];
 
   const departments = [
-    { name: "Engineering", count: 2, color: "bg-blue-500/10 text-blue-400" },
+    { name: "Leadership", count: 1, color: "bg-blue-500/10 text-blue-400" },
     { name: "Operations", count: 1, color: "bg-green-500/10 text-green-400" },
-    { name: "R&D", count: 1, color: "bg-purple-500/10 text-purple-400" },
-    { name: "Product", count: 1, color: "bg-orange-500/10 text-orange-400" },
-    { name: "QA", count: 1, color: "bg-red-500/10 text-red-400" }
+    { name: "Technology", count: 1, color: "bg-purple-500/10 text-purple-400" }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+    <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
@@ -76,7 +53,7 @@ const Team = () => {
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Meet the experts behind Stravex Technologies' innovative tactical solutions. Our diverse team combines cutting-edge research with real-world operational experience.
+            Meet the founding team behind Stravex Technologies' innovative tactical solutions. Our founders combine strategic vision, technical expertise, and operational excellence to drive the future of defense technology.
           </p>
         </div>
 
@@ -135,9 +112,16 @@ const Team = () => {
                   <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                     <Mail className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Linkedin className="h-4 w-4" />
-                  </Button>
+                  {member.linkedin && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="h-8 w-8 p-0"
+                      onClick={() => window.open(member.linkedin, '_blank')}
+                    >
+                      <Linkedin className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               </div>
             </Card>
@@ -158,7 +142,7 @@ const Team = () => {
                 "Our diverse backgrounds—from advanced research to operational field experience—enable us to create solutions that are not only technologically advanced but also practical and effective in real-world scenarios."
               </p>
             </div>
-            <div className="pt-4">
+            <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 asChild 
                 size="lg" 
@@ -167,6 +151,15 @@ const Team = () => {
                 <Link to="/contact">
                   Join Our Team
                 </Link>
+              </Button>
+              <Button 
+                variant="outline"
+                size="lg"
+                onClick={() => window.open('https://www.linkedin.com/company/stravex-technologies/', '_blank')}
+                className="flex items-center space-x-2"
+              >
+                <Linkedin className="h-5 w-5" />
+                <span>Follow Us on LinkedIn</span>
               </Button>
             </div>
           </div>
