@@ -23,12 +23,35 @@ const About = () => {
               {/* Made in India Badges */}
               <div className="flex flex-wrap justify-center gap-4">
                 <div className="flex items-center space-x-2 bg-gradient-to-r from-orange-500/10 to-orange-600/10 border border-orange-500/20 rounded-lg px-4 py-2">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+                  <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-xs">🇮🇳</span>
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
                   <div className="w-8 h-8 overflow-hidden rounded-full">
                     <img
                       src="/indian-flag.png.jpg"
                       alt="Indian Flag"
                       className="w-full h-full object-cover object-center scale-150"
                     />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
                   </div>
                   <div className="text-sm">
                     <div className="text-orange-400 font-bold">Make in India</div>
@@ -159,12 +182,35 @@ const About = () => {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="flex flex-col items-center space-y-3 p-4 bg-white/5 rounded-lg border border-orange-500/10">
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-bold text-lg">🇮🇳</span>
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
                   <div className="w-12 h-12 overflow-hidden rounded-full">
                     <img
                       src="/indian-flag.png.jpg"
                       alt="Indian Flag"
                       className="w-full h-full object-cover object-center scale-150"
                     />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
                   </div>
                   <div className="text-center">
                     <h4 className="font-bold text-foreground">Make in India</h4>

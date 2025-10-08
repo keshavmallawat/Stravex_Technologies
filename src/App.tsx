@@ -6,8 +6,26 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import Navigation from "./components/Navigation";
 import ScrollToTop from "./components/ScrollToTop";
+<<<<<<< HEAD
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminLayout from "./components/admin/AdminLayout";
+=======
+<<<<<<< HEAD
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLayout from "./components/admin/AdminLayout";
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLayout from "./components/admin/AdminLayout";
+>>>>>>> Stashed changes
+=======
+import ProtectedRoute from "./components/ProtectedRoute";
+import AdminLayout from "./components/admin/AdminLayout";
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Products from "./pages/Products";
@@ -30,6 +48,34 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      <BrowserRouter>
+        <ScrollToTop />
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Index />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/team" element={<Team />} />
+          <Route path="/technologies" element={<Technologies />} />
+          <Route path="/blog" element={<Blogs />} />
+          <Route path="/careers" element={<Careers />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<Admin />} />
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
       <AuthProvider>
         <BrowserRouter>
           <ScrollToTop />
@@ -62,6 +108,16 @@ const App = () => (
           </Routes>
         </BrowserRouter>
       </AuthProvider>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
     </TooltipProvider>
   </QueryClientProvider>
 );

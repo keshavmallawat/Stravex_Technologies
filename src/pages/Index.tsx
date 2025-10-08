@@ -104,7 +104,15 @@ const Index = () => {
             asChild 
             size="lg" 
             variant="outline"
+<<<<<<< HEAD
             className="border-border hover:bg-primary hover:text-primary-foreground border-primary transition-colors hover:shadow-glow"
+=======
+<<<<<<< HEAD
+            className="border-border hover:bg-primary hover:text-primary-foreground border-primary transition-colors hover:shadow-glow"
+=======
+            className="border-border hover:bg-secondary"
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
           >
             <Link to="/contact">
               Start Your Journey <ArrowRight className="ml-2 h-5 w-5" />
@@ -122,8 +130,28 @@ const Index = () => {
                 <div className="p-6">
                   <div className="text-center">
                     <img
+<<<<<<< HEAD
                       src="/iitb-logo.png"
                       alt="IIT Bombay - SINE Business Incubator"
+=======
+<<<<<<< HEAD
+                      src="/iitb-logo.png"
+                      alt="IIT Bombay - SINE Business Incubator"
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+                      src="/sine-iitb.png"
+                      alt="SINE IIT Bombay - Business Incubator"
+=======
+                      src="/iitb-logo.png"
+                      alt="IIT Bombay - SINE Business Incubator"
+>>>>>>> Stashed changes
+=======
+                      src="/iitb-logo.png"
+                      alt="IIT Bombay - SINE Business Incubator"
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
                       className="h-24 sm:h-28 md:h-32 w-auto object-contain"
                     />
                   </div>

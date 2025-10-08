@@ -6,7 +6,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { createContactSubmission } from "@/integrations/firebase/contactService";
+<<<<<<< HEAD
 import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
+=======
+<<<<<<< HEAD
+import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
+=======
+import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
+>>>>>>> Stashed changes
+=======
+import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
 import { z } from "zod";
 
 const contactSchema = z.object({

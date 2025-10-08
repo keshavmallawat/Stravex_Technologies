@@ -8,7 +8,23 @@ const Team = () => {
   const teamMembers = [
     {
       name: "Krishna Mallawat",
+<<<<<<< HEAD
       role: "CEO & Co-founder",
+=======
+<<<<<<< HEAD
+      role: "CEO & Co-founder",
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      role: "Founder & CEO",
+=======
+      role: "CEO & Co-founder",
+>>>>>>> Stashed changes
+=======
+      role: "CEO & Co-founder",
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
       department: "Leadership",
       bio: "Visionary leader driving Stravex Technologies' mission to revolutionize tactical defense solutions through innovative technology and strategic partnerships.",
       expertise: ["Strategic Leadership", "Business Development", "Innovation"],
@@ -17,8 +33,28 @@ const Team = () => {
     },
     {
       name: "Atharva Dalvi",
+<<<<<<< HEAD
       role: "CTO & Co-founder",
       department: "Technology",
+=======
+<<<<<<< HEAD
+      role: "CTO & Co-founder",
+      department: "Technology",
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      role: "Founder & COO",
+      department: "Operations",
+=======
+      role: "CTO & Co-founder",
+      department: "Technology",
+>>>>>>> Stashed changes
+=======
+      role: "CTO & Co-founder",
+      department: "Technology",
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
       bio: "Operations expert ensuring seamless execution of tactical solutions with focus on quality, efficiency, and mission-critical reliability.",
       expertise: ["Operations Management", "Quality Assurance", "Strategic Planning"],
       image: null,
@@ -26,8 +62,28 @@ const Team = () => {
     },
     {
       name: "Harsh Patil",
+<<<<<<< HEAD
       role: "COO & Co-founder",
       department: "Operations",
+=======
+<<<<<<< HEAD
+      role: "COO & Co-founder",
+      department: "Operations",
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      role: "Founder & CTO",
+      department: "Technology",
+=======
+      role: "COO & Co-founder",
+      department: "Operations",
+>>>>>>> Stashed changes
+=======
+      role: "COO & Co-founder",
+      department: "Operations",
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
       bio: "Technical architect and innovation catalyst, leading the development of cutting-edge tactical systems and advanced defense technologies.",
       expertise: ["Technology Strategy", "System Architecture", "R&D Leadership"],
       image: null,

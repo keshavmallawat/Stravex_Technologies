@@ -57,6 +57,33 @@ These drones combine high-speed maneuverability with real-time FPV control, offe
       status: "Development"
     },
     {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+      id: "guardian-shield",
+      name: "GUARDIAN SHIELD",
+      subtitle: "ACTIVE PROTECTION",
+      description: "Automated defense system with intelligent threat prioritization and countermeasure deployment.",
+      features: ["Automated Response", "Threat Prioritization", "Modular Design", "Remote Operation"],
+      category: "Defense Systems",
+      status: "Available"
+    },
+    {
+      id: "tactical-drone-x1",
+      name: "TACTICAL DRONE X1",
+      subtitle: "AERIAL RECONNAISSANCE",
+      description: "Advanced unmanned aerial vehicle designed for tactical reconnaissance and surveillance operations with extended flight time and stealth capabilities.",
+      features: ["Extended Flight Time", "Stealth Technology", "High-Resolution Imaging", "Autonomous Navigation"],
+      category: "Aerial Systems",
+      status: "Available"
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
       id: "indigenous-fc-esc",
       name: "Indigenous Flight Controller & ESC",
       subtitle: "Made‑in‑India Core Electronics",
@@ -93,6 +120,16 @@ These systems merge the stability of multirotors with the range and endurance of
       ],
       category: "Long‑Range Platforms",
       status: "Research"
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
     }
   ];
 

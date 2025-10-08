@@ -7,8 +7,27 @@ import {
   query, 
   orderBy, 
   serverTimestamp,
+<<<<<<< HEAD
   Timestamp,
   onSnapshot
+=======
+<<<<<<< HEAD
+  Timestamp,
+  onSnapshot
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+  Timestamp 
+=======
+  Timestamp,
+  onSnapshot
+>>>>>>> Stashed changes
+=======
+  Timestamp,
+  onSnapshot
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
 } from 'firebase/firestore';
 import { db } from './config';
 import type { ContactSubmission, ContactSubmissionCreate } from './types';
@@ -58,6 +77,17 @@ export const getContactSubmissions = async (): Promise<ContactSubmission[]> => {
   }
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
 // Subscribe to real-time updates for contact submissions
 export const subscribeContactSubmissions = (
   callback: (submissions: ContactSubmission[]) => void
@@ -85,6 +115,16 @@ export const subscribeContactSubmissions = (
   return unsubscribe;
 };
 
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
+>>>>>>> c1c7b426fa5f1b6bc0373568799fca8f601230b8
+>>>>>>> 6b5f517737979c4deba00e954a47bc3096946bb3
 // Delete a contact submission
 export const deleteContactSubmission = async (id: string): Promise<void> => {
   try {
