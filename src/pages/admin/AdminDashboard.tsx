@@ -2,12 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { 
-  MessageSquare, 
-  FileText, 
-  Briefcase, 
-  Users, 
+  MessageSquare,
   TrendingUp,
-  Calendar,
   ArrowUpRight
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -15,8 +11,7 @@ import {
   collection, 
   getDocs, 
   query, 
-  orderBy, 
-  limit,
+  orderBy,
   where,
   Timestamp
 } from 'firebase/firestore';
@@ -24,8 +19,6 @@ import { db } from '@/lib/firebase';
 
 interface DashboardStats {
   totalContacts: number;
-  totalBlogs: number;
-  totalCareers: number;
   recentContacts: number;
 }
 
@@ -40,8 +33,6 @@ interface RecentContact {
 const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState<DashboardStats>({
     totalContacts: 0,
-    totalBlogs: 0,
-    totalCareers: 0,
     recentContacts: 0
   });
   const [recentContacts, setRecentContacts] = useState<RecentContact[]>([]);
@@ -69,20 +60,8 @@ const AdminDashboard: React.FC = () => {
           ...doc.data()
         })) as RecentContact[];
 
-        // Fetch blogs
-        const blogsQuery = query(collection(db, 'blogs'));
-        const blogsSnapshot = await getDocs(blogsQuery);
-        const totalBlogs = blogsSnapshot.size;
-
-        // Fetch careers
-        const careersQuery = query(collection(db, 'careers'));
-        const careersSnapshot = await getDocs(careersQuery);
-        const totalCareers = careersSnapshot.size;
-
         setStats({
           totalContacts,
-          totalBlogs,
-          totalCareers,
           recentContacts: recentContacts.length
         });
 
@@ -105,22 +84,6 @@ const AdminDashboard: React.FC = () => {
       color: 'text-blue-500',
       bgColor: 'bg-blue-500/10',
       href: '/admin/contacts'
-    },
-    {
-      title: 'Total Blogs',
-      value: stats.totalBlogs,
-      icon: FileText,
-      color: 'text-green-500',
-      bgColor: 'bg-green-500/10',
-      href: '/admin/blogs'
-    },
-    {
-      title: 'Job Openings',
-      value: stats.totalCareers,
-      icon: Briefcase,
-      color: 'text-purple-500',
-      bgColor: 'bg-purple-500/10',
-      href: '/admin/careers'
     },
     {
       title: 'Recent Contacts',
@@ -243,20 +206,6 @@ const AdminDashboard: React.FC = () => {
               <Button variant="outline" className="w-full justify-start">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 Manage Contact Submissions
-              </Button>
-            </Link>
-            
-            <Link to="/admin/blogs">
-              <Button variant="outline" className="w-full justify-start">
-                <FileText className="mr-2 h-4 w-4" />
-                Create New Blog Post
-              </Button>
-            </Link>
-            
-            <Link to="/admin/careers">
-              <Button variant="outline" className="w-full justify-start">
-                <Briefcase className="mr-2 h-4 w-4" />
-                Add Job Opening
               </Button>
             </Link>
           </div>

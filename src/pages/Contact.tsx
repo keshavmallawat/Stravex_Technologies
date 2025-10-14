@@ -42,13 +42,13 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Address",
-      details: ["Vashi, Navi Mumbai, Maharashtra, India"],
+      details: ["601, Sea Princess, Seawoods, Navi Mumbai"],
       description: "Visit our office"
     },
     {
       icon: Clock,
       title: "Business Hours",
-      details: ["Mon - Fri: 8:00 AM - 6:00 PM", "Sat - Sun: Emergency Only"],
+      details: ["Mon - Sat: 10:00 AM - 7:00 PM"],
       description: "Our availability"
     }
   ];

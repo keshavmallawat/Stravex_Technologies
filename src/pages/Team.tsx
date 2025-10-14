@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Linkedin, Mail, User } from "lucide-react";
+import { Linkedin, User } from "lucide-react";
 
 const Team = () => {
   const teamMembers = [
@@ -10,27 +10,27 @@ const Team = () => {
       name: "Krishna Mallawat",
       role: "CEO & Co-founder",
       department: "Leadership",
-      bio: "Visionary leader driving Stravex Technologies' mission to revolutionize tactical defense solutions through innovative technology and strategic partnerships.",
-      expertise: ["Strategic Leadership", "Business Development", "Innovation"],
-      image: null,
+      bio: "Driving Stravex Technologies to develop high-impact defense solutions with electronics, embedded systems, and AI/ML. Committed to advancing technology that strengthens security, operational excellence, and global influence.",
+      expertise: ["Electronics", "Embedded Systems", "AI & ML", "Defense Solutions"],
+      image: "/team/krishna-mallawat.jpg",
       linkedin: "https://www.linkedin.com/in/krishna-mallawat-72061317b/"
     },
     {
       name: "Atharva Dalvi",
       role: "CTO & Co-founder",
       department: "Technology",
-      bio: "Operations expert ensuring seamless execution of tactical solutions with focus on quality, efficiency, and mission-critical reliability.",
-      expertise: ["Operations Management", "Quality Assurance", "Strategic Planning"],
-      image: null,
+      bio: "Advancing innovation at Stravex Technologies through cutting-edge solutions designed to shape the future and make a meaningful global impact.",
+      expertise: ["Hardware Design", "AI & ML", "IOT"],
+      image: "/team/atharva-dalvi.jpg",
       linkedin: "https://www.linkedin.com/in/atharvadalvi010/"
     },
     {
       name: "Harsh Patil",
       role: "COO & Co-founder",
       department: "Operations",
-      bio: "Technical architect and innovation catalyst, leading the development of cutting-edge tactical systems and advanced defense technologies.",
-      expertise: ["Technology Strategy", "System Architecture", "R&D Leadership"],
-      image: null,
+      bio: "My role focuses on driving innovation from concept to deployment — ensuring our systems deliver unmatched speed, intelligence, and reliability in defence, security, and high-performance industrial missions.",
+      expertise: ["Drone System Engineer", "Control system", "Hardware Design"],
+      image: "/team/harsh-patil.jpg",
       linkedin: "https://www.linkedin.com/in/harsh-patil-33049130a/"
     }
   ];
@@ -78,9 +78,17 @@ const Team = () => {
               <div className="space-y-4">
                 {/* Avatar */}
                 <div className="flex justify-center">
-                  <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center">
-                    <User className="h-10 w-10 text-primary-foreground" />
-                  </div>
+                  {member.image ? (
+                    <img
+                      src={member.image}
+                      alt={`${member.name} photo`}
+                      className="w-20 h-20 rounded-full object-cover border border-border shadow-sm"
+                    />
+                  ) : (
+                    <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center">
+                      <User className="h-10 w-10 text-primary-foreground" />
+                    </div>
+                  )}
                 </div>
 
                 {/* Member Info */}
@@ -91,7 +99,7 @@ const Team = () => {
                 </div>
 
                 {/* Bio */}
-                <p className="text-sm text-muted-foreground text-center leading-relaxed">
+                <p className="text-sm text-muted-foreground text-center leading-relaxed min-h-[6rem] md:min-h-[7rem]">
                   {member.bio}
                 </p>
 
@@ -109,9 +117,6 @@ const Team = () => {
 
                 {/* Contact */}
                 <div className="flex justify-center space-x-2 pt-2">
-                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                    <Mail className="h-4 w-4" />
-                  </Button>
                   {member.linkedin && (
                     <Button 
                       variant="ghost" 
