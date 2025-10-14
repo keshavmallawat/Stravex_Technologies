@@ -29,8 +29,6 @@ const AdminLayout: React.FC = () => {
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
     { name: 'Contact Manager', path: '/admin/contacts', icon: MessageSquare },
-    { name: 'Blog Manager', path: '/admin/blogs', icon: FileText },
-    { name: 'Careers Manager', path: '/admin/careers', icon: Briefcase },
   ];
 
   const isActive = (path: string) => {
@@ -67,13 +65,14 @@ const AdminLayout: React.FC = () => {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="p-6 border-b border-border">
-            <Link to="/admin" className="flex items-center space-x-2">
-              <div className="font-heading text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                STRAVEX
-              </div>
-              <div className="text-xs text-muted-foreground">
-                ADMIN
-              </div>
+            <Link to="/admin" className="flex items-center space-x-3">
+              <img
+                src="/stravex-logo.png"
+                alt="Stravex Technologies"
+                className="h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 w-auto object-contain select-none"
+                draggable={false}
+              />
+              <div className="text-xs text-muted-foreground">ADMIN</div>
             </Link>
           </div>
 

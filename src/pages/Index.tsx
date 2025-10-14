@@ -12,10 +12,14 @@ const Index = () => {
           <div className="relative text-center space-y-8 animate-fade-in">
             <div className="pointer-events-none absolute inset-0 -z-10 mx-auto max-w-3xl blur-2xl opacity-40" style={{background: 'radial-gradient(600px 200px at 50% 10%, rgba(56,189,248,0.25), transparent 60%)'}} />
             <div className="space-y-4">
-              <h1 className="font-heading text-4xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight drop-shadow-sm">
-                Innovating{" "}
-                <span className="bg-gradient-primary bg-clip-text text-transparent">
-                  Beyond Limits
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight drop-shadow-sm whitespace-nowrap">
+                <span className="inline-flex items-baseline gap-3">
+                  <span className="font-geo-hero bg-gradient-primary bg-clip-text text-transparent">
+                    Innovating
+                  </span>
+                  <span className="font-handwriting text-foreground md:text-[56px] text-[42px] font-normal">
+                    Beyond Limits
+                  </span>
                 </span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">

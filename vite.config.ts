@@ -1,17 +1,27 @@
+// vite.config.ts
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    host: "::",
-    port: 8080,
-  },
+  base: "/", // important for custom domains on GitHub Pages
+  server: { host: "::", port: 8080 },
   plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
+  build: {
+    sourcemap: process.env.NODE_ENV === "development",
+    chunkSizeWarningLimit: 700,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) return "vendor-react";
+            if (id.includes("firebase")) return "vendor-firebase";
+            if (id.includes("@radix-ui")) return "vendor-radix";
+            return "vendor";
+          }
+        },
+      },
     },
   },
 });

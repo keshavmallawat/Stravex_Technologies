@@ -19,7 +19,7 @@ Using AI-driven optical detection, AgniStrike analyzes an incoming drone’s spe
 
 Built entirely in India, AgniStrike redefines tactical defense, offering unmatched mobility, intelligence, and reliability to protect borders, convoys, and critical infrastructure.
 ➡ Point. Analyze. Press. Protect.`,
-      image: stravexHero,
+      image: "/products/agni-strike.png?v=3",
       features: [
         "AI-driven optical detection",
         "200–250 km/h high-speed interceptor",
@@ -28,7 +28,7 @@ Built entirely in India, AgniStrike redefines tactical defense, offering unmatch
         "Rapid reload for multiple engagements"
       ],
       category: "Tactical Interception",
-      status: "Available"
+      status: "In Development"
     },
     {
       id: "fpv-drones",
@@ -45,7 +45,7 @@ Kamikaze or impact payloads
 Surveillance and sensor modules
 
 These drones combine high-speed maneuverability with real-time FPV control, offering precise, responsive performance in defense, reconnaissance, and field operations.`,
-      image: stravexHero,
+      image: "/products/fpv-drones.png?v=1",
       features: [
         "5-inch, 7-inch, 10-inch configurations",
         "Quick-swap payload mechanism",
@@ -54,7 +54,7 @@ These drones combine high-speed maneuverability with real-time FPV control, offe
         "Agility and endurance for field ops"
       ],
       category: "Aerial Platforms",
-      status: "Development"
+      status: "In Development"
     },
     {
       id: "indigenous-fc-esc",
@@ -65,7 +65,7 @@ These drones combine high-speed maneuverability with real-time FPV control, offe
 Our next-generation FC integrates AI-based stabilization, adaptive flight algorithms, and real-time telemetry processing for unmatched flight precision and safety. Complementing it, our custom-built ESC ensures efficient power delivery, advanced motor control, and system reliability across various drone categories — from FPV and industrial drones to logistics and surveillance platforms.
 
 Together, these systems form the core of our Made-in-India drone ecosystem, providing a secure, high-performance, and scalable foundation for the country’s growing unmanned aviation market.`,
-      image: stravexHero,
+      image: "/products/indigenous-fc-esc.png?v=2",
       features: [
         "AI-based stabilization",
         "Adaptive flight algorithms",
@@ -75,24 +75,6 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
       ],
       category: "Avionics",
       status: "In Development"
-    },
-    {
-      id: "vtol-drones",
-      name: "VTOL Drones",
-      subtitle: "Vertical Take‑Off and Landing",
-      description: `Expanding the horizon of aerial innovation, Stravex Technologies is developing VTOL (Vertical Take-Off and Landing) drones for long-range, hybrid missions.
-
-These systems merge the stability of multirotors with the range and endurance of fixed-wing aircraft, enabling seamless transitions between hover and forward flight. Designed for defense, logistics, and reconnaissance, our VTOL platforms ensure superior adaptability, payload capacity, and operational range, even in challenging environments.`,
-      image: stravexHero,
-      features: [
-        "Seamless hover to forward flight",
-        "Long-range, long-endurance missions",
-        "Hybrid multirotor + fixed-wing",
-        "High payload capacity",
-        "Adaptable to challenging environments"
-      ],
-      category: "Long‑Range Platforms",
-      status: "Research"
     }
   ];
 
@@ -151,12 +133,22 @@ These systems merge the stability of multirotors with the range and endurance of
             <Card key={product.id} className="overflow-hidden bg-card border-border hover:shadow-card transition-all duration-300">
               <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
                 {/* Product Image */}
-                <div className={`relative ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+                <div
+                  className={`relative ${index % 2 === 1 ? 'lg:col-start-2' : ''} ${
+                    (product.id === 'indigenous-fc-esc' || product.id === 'agni-strike')
+                      ? 'bg-neutral-200 border border-border rounded-md flex items-center justify-center'
+                      : ''
+                  }`}
+                >
                   {product.image ? (
                     <img 
                       src={product.image} 
                       alt={product.name}
-                      className="w-full h-80 lg:h-full object-cover"
+                      className={
+                        (product.id === 'indigenous-fc-esc' || product.id === 'agni-strike')
+                          ? 'w-full h-80 lg:h-full object-contain bg-neutral-900'
+                          : 'w-full h-80 lg:h-full object-cover'
+                      }
                     />
                   ) : (
                     <div className="w-full h-80 lg:h-full bg-gradient-secondary flex items-center justify-center">

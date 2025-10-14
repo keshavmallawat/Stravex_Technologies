@@ -31,7 +31,7 @@ const About = () => {
                     />
                   </div>
                   <div className="text-sm">
-                    <div className="text-orange-400 font-bold">Make in India</div>
+                    <div className="text-orange-400 font-bold">Made in India</div>
                     <div className="text-orange-300 text-xs">Certified</div>
                   </div>
                 </div>
@@ -167,7 +167,7 @@ const About = () => {
                     />
                   </div>
                   <div className="text-center">
-                    <h4 className="font-bold text-foreground">Make in India</h4>
+                    <h4 className="font-bold text-foreground">Made in India</h4>
                     <p className="text-sm text-muted-foreground">Government Initiative</p>
                     <Badge variant="outline" className="mt-2 text-xs">Certified</Badge>
                   </div>
