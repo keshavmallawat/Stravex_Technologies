@@ -14,4 +14,20 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    sourcemap: process.env.NODE_ENV === "development",
+    chunkSizeWarningLimit: 700,
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react")) return "vendor-react";
+            if (id.includes("firebase")) return "vendor-firebase";
+            if (id.includes("@radix-ui")) return "vendor-radix";
+            return "vendor";
+          }
+        },
+      },
+    },
+  },
 });
