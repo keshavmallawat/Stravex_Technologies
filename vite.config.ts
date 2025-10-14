@@ -1,27 +1,16 @@
-// vite.config.ts
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";      // switch from -swc to this
 import path from "path";
 
 export default defineConfig({
-  base: "/", // important for custom domains on GitHub Pages
+  base: "/",
   server: { host: "::", port: 8080 },
   plugins: [react()],
   resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
   build: {
-    sourcemap: 'inline',
+    sourcemap: "inline",                        // keep for debugging; we can revert later
     chunkSizeWarningLimit: 700,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            if (id.includes("react")) return "vendor-react";
-            if (id.includes("firebase")) return "vendor-firebase";
-            if (id.includes("@radix-ui")) return "vendor-radix";
-            return "vendor";
-          }
-        },
-      },
-    },
+    // Avoid custom vendor chunk splitting; let Rollup decide to prevent TDZ/circular issues
+    // rollupOptions intentionally removed
   },
 });
