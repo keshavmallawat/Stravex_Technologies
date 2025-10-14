@@ -20,7 +20,7 @@ const Team = () => {
       role: "CTO & Co-founder",
       department: "Technology",
       bio: "Advancing innovation at Stravex Technologies through cutting-edge solutions designed to shape the future and make a meaningful global impact.",
-      expertise: ["Hardware Design", "AI & ML", "IOT"],
+      expertise: ["Hardware Design", "AI & ML", "IoT"],
       image: "/team/atharva-dalvi.jpg",
       linkedin: "https://www.linkedin.com/in/atharvadalvi010/"
     },
@@ -75,7 +75,7 @@ const Team = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
           {teamMembers.map((member, index) => (
             <Card key={index} className="p-6 bg-card border-border hover:shadow-card transition-all duration-300 hover:-translate-y-1">
-              <div className="space-y-4">
+              <div className="h-full flex flex-col space-y-4">
                 {/* Avatar */}
                 <div className="flex justify-center">
                   {member.image ? (
@@ -98,25 +98,30 @@ const Team = () => {
                   <Badge variant="outline">{member.department}</Badge>
                 </div>
 
-                {/* Bio */}
-                <p className="text-sm text-muted-foreground text-center leading-relaxed min-h-[6rem] md:min-h-[7rem]">
-                  {member.bio}
-                </p>
+                {/* Content block fills remaining space so contact aligns across cards */}
+                <div className="flex-grow flex flex-col gap-3">
+                  {/* Bio */}
+                  <p className="text-sm text-muted-foreground text-justify leading-relaxed max-w-prose mx-auto min-h-28 md:min-h-32">
+                    {member.bio}
+                  </p>
 
-                {/* Expertise */}
-                <div className="space-y-2">
-                  <h4 className="text-sm font-semibold text-foreground">Expertise</h4>
-                  <div className="flex flex-wrap gap-1">
-                    {member.expertise.map((skill, skillIndex) => (
-                      <Badge key={skillIndex} variant="secondary" className="text-xs">
-                        {skill}
-                      </Badge>
-                    ))}
+                  {/* Expertise */}
+                  <div className="space-y-2">
+                    <h4 className="text-base md:text-lg font-bold text-foreground text-center">Expertise</h4>
+                    <div className="flex flex-wrap justify-center gap-2 min-h-12 md:min-h-14">
+                      {member.expertise.map((skill, skillIndex) => (
+                        <Badge key={skillIndex} variant="secondary" className="inline-flex items-center h-6 px-3 py-0 rounded-full text-xs leading-none whitespace-nowrap">
+                          {skill}
+                        </Badge>
+                      ))}
+                    </div>
                   </div>
+                  {/* Spacer to push contact row to bottom uniformly */}
+                  <div className="flex-grow" />
                 </div>
 
                 {/* Contact */}
-                <div className="flex justify-center space-x-2 pt-2">
+                <div className="mt-auto flex justify-center space-x-2 pt-2">
                   {member.linkedin && (
                     <Button 
                       variant="ghost" 

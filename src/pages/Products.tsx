@@ -136,7 +136,7 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
                 <div
                   className={`relative ${index % 2 === 1 ? 'lg:col-start-2' : ''} ${
                     (product.id === 'indigenous-fc-esc' || product.id === 'agni-strike')
-                      ? 'bg-neutral-200 border border-border rounded-md flex items-center justify-center'
+                      ? 'bg-neutral-900 border border-border rounded-md overflow-hidden flex items-center justify-center min-h-[20rem] lg:min-h-[24rem]'
                       : ''
                   }`}
                 >
@@ -146,8 +146,8 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
                       alt={product.name}
                       className={
                         (product.id === 'indigenous-fc-esc' || product.id === 'agni-strike')
-                          ? 'w-full h-80 lg:h-full object-contain bg-neutral-900'
-                          : 'w-full h-80 lg:h-full object-cover'
+                          ? 'w-full h-full object-cover'
+                          : 'w-full h-full object-cover'
                       }
                     />
                   ) : (
