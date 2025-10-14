@@ -13,8 +13,35 @@ import {
   Globe,
   ArrowRight
 } from "lucide-react";
+import TechPillarCard from "@/components/TechPillarCard";
 
 const Technologies = () => {
+  const pillars = [
+    {
+      title: "AI & ML",
+      icon: Brain,
+      desc: "Real‑time perception, prediction, and decision support at the edge.",
+      badges: ["Computer Vision", "Target Recognition", "Predictive Models", "On‑device Inference"]
+    },
+    {
+      title: "Autonomous Systems",
+      icon: Radar,
+      desc: "Robust autonomy with reliable planning and safety fallbacks.",
+      badges: ["Path Planning", "SLAM/Localization", "Mission Logic", "Fail‑safes"]
+    },
+    {
+      title: "Hardware Engineering",
+      icon: Settings,
+      desc: "Rugged electronics designed for speed, efficiency, and reliability.",
+      badges: ["PCB/Power", "Sensor Fusion", "Thermal Design", "EMI/EMC"]
+    },
+    {
+      title: "Internet of Things (IoT)",
+      icon: Globe,
+      desc: "Connected devices with secure telemetry and remote ops.",
+      badges: ["Edge Telemetry", "Provisioning", "OTA Updates", "Secure Comms"]
+    }
+  ];
   const techCategories = [
     {
       title: "Core Technologies",
@@ -43,6 +70,12 @@ const Technologies = () => {
           icon: Cpu,
           description: "High-performance computing for mission-critical operations",
           applications: ["Low Latency Systems", "Parallel Processing", "Edge Computing"]
+        },
+        {
+          name: "Autonomous Systems",
+          icon: Settings,
+          description: "Autonomous navigation and on-board decision making for field operations",
+          applications: ["Path Planning", "SLAM & Localization", "Failsafe Redundancy"]
         }
       ]
     },
@@ -73,8 +106,33 @@ const Technologies = () => {
           icon: Zap,
           description: "Efficient power systems for portable tactical equipment",
           applications: ["Battery Optimization", "Power Distribution", "Energy Harvesting"]
+        },
+        {
+          name: "Hardware Engineering",
+          icon: Settings,
+          description: "Design and validation of robust electronics for harsh environments",
+          applications: ["PCB Design", "Power Electronics", "Thermal Management"]
+        },
+        {
+          name: "Internet of Things (IoT)",
+          icon: Globe,
+          description: "Connected sensors and device orchestration for situational awareness",
+          applications: ["Edge Telemetry", "Device Provisioning", "Remote Diagnostics"]
         }
       ]
+    }
+  ];
+
+  const strategicAdvantages = [
+    {
+      title: "Made in India",
+      description: "Indigenous design, manufacturing, and local supply chain integration underpin our reliability and sovereign capability.",
+      highlight: "Strategic & Market Advantage"
+    },
+    {
+      title: "End‑to‑End Support",
+      description: "Domestic integration, training, and lifecycle service for dependable operations and fast turnaround.",
+      highlight: "Operational Advantage"
     }
   ];
 
@@ -108,6 +166,19 @@ const Technologies = () => {
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Cutting-edge technologies and development frameworks that power our advanced tactical solutions and drive innovation in defense applications.
           </p>
+        </div>
+
+        {/* Technology Pillars */}
+        <div className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-foreground">Technology Pillars</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">The four pillars that power our solutions—designed to be practical, intuitive, and mission‑ready.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            {pillars.map((p, i) => (
+              <TechPillarCard key={i} icon={p.icon} title={p.title} desc={p.desc} badges={p.badges} />
+            ))}
+          </div>
         </div>
 
         {/* Technology Categories */}
@@ -151,6 +222,27 @@ const Technologies = () => {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Strategic Advantages */}
+        <div className="mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-foreground">Strategic Advantages</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Non-technical differentiators that strengthen our position and value.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {strategicAdvantages.map((adv, idx) => (
+              <Card key={idx} className="p-6 bg-card border-border hover:shadow-card transition-all duration-300 hover:-translate-y-1">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xl font-bold text-foreground">{adv.title}</h3>
+                    <Badge variant="outline">{adv.highlight}</Badge>
+                  </div>
+                  <p className="text-muted-foreground">{adv.description}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
 
         {/* Standards & Certifications */}

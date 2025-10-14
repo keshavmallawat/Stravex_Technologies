@@ -13,14 +13,10 @@ import About from "./pages/About";
 import Products from "./pages/Products";
 import Team from "./pages/Team";
 import Technologies from "./pages/Technologies";
-import Blogs from "./pages/Blogs";
-import Careers from "./pages/Careers";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ContactManager from "./pages/admin/ContactManager";
-import BlogManager from "./pages/admin/BlogManager";
-import CareersManager from "./pages/admin/CareersManager";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -40,8 +36,6 @@ const App = () => (
             <Route path="/products" element={<Products />} />
             <Route path="/team" element={<Team />} />
             <Route path="/technologies" element={<Technologies />} />
-            <Route path="/blog" element={<Blogs />} />
-            <Route path="/careers" element={<Careers />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
             
@@ -53,8 +47,6 @@ const App = () => (
             }>
               <Route index element={<AdminDashboard />} />
               <Route path="contacts" element={<ContactManager />} />
-              <Route path="blogs" element={<BlogManager />} />
-              <Route path="careers" element={<CareersManager />} />
             </Route>
             
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
@@ -67,3 +59,4 @@ const App = () => (
 );
 
 export default App;
+
