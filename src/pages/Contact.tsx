@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { createContactSubmission } from "@/integrations/firebase/contactService";
 import { Mail, Phone, MapPin, Clock, Send, Users, Linkedin, Instagram } from "lucide-react";
 import { z } from "zod";
+import SEO from "@/components/SEO";
 
 const contactSchema = z.object({
   name: z.string().trim().nonempty({ message: "Name is required" }).max(100, { message: "Name must be less than 100 characters" }),
@@ -17,6 +18,14 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.stravextechnologies.com/contact" }
+    ]
+  };
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -125,6 +134,13 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="Contact – Stravex Technologies"
+        description="Contact Stravex Technologies. Talk to our experts about tactical detection, interception systems, and custom solutions."
+        path="/contact"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">

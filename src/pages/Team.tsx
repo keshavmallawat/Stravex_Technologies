@@ -3,8 +3,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Linkedin, User } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const Team = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Team", "item": "https://www.stravextechnologies.com/team" }
+    ]
+  };
   const teamMembers = [
     {
       name: "Krishna Mallawat",
@@ -43,6 +52,13 @@ const Team = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="Team – Stravex Technologies"
+        description="Meet the founding team driving Stravex Technologies' innovation in tactical defense technology."
+        path="/team"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">

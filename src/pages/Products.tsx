@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Radar, Zap, Target, Cpu, Lock } from "lucide-react";
 import stravexHero from "@/assets/stravex-hero.png";
+import SEO from "@/components/SEO";
 
 const Products = () => {
   const products = [
@@ -111,8 +112,34 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
     }
   ];
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://www.stravextechnologies.com/products" }
+    ]
+  };
+
+  const productsJsonLd = products.map((p) => ({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": p.name,
+    "description": p.description.replace(/\n/g, " ").slice(0, 500),
+    "image": p.image ? `https://www.stravextechnologies.com${p.image}` : undefined,
+    "brand": { "@type": "Brand", "name": "Stravex Technologies" },
+    "category": p.category
+  }));
+
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="Products – Stravex Technologies"
+        description="Explore Stravex Technologies' cutting-edge tactical products including AgniStrike, FPV platforms, and indigenous avionics."
+        path="/products"
+        image="/stravex-logo.png"
+        jsonLd={[breadcrumbJsonLd, ...productsJsonLd]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">

@@ -2,10 +2,18 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Shield, Zap, Target } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid">
+      <SEO 
+        title="Stravex Technologies - Advanced Tactical Solutions"
+        description="Leading innovator in tactical detection and interception systems. Advanced defense technologies for mission-critical operations."
+        path="/"
+        image="/stravex-logo.png"
+        type="website"
+      />
       {/* Hero Section */}
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
