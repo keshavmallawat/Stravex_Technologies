@@ -181,7 +181,7 @@ const Technologies = () => {
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Cutting-edge technologies and development frameworks that power our advanced tactical solutions and drive innovation in defense applications.
+            Stravex Technologies builds cutting-edge technologies and development frameworks that power our advanced tactical solutions and drive innovation in defense applications. At Stravex Technologies, we focus on practical engineering that delivers reliable, mission‑ready capability.
           </p>
         </div>
 
