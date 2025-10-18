@@ -6,6 +6,7 @@ import { getContactSubmissions, deleteContactSubmission } from "@/integrations/f
 import { RefreshCw, Mail, User, MessageSquare, Calendar, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import SEO from "@/components/SEO";
 
 interface ContactSubmission {
   id: string;
@@ -72,6 +73,12 @@ const Admin = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero pt-24 pb-16">
+      <SEO
+        title="Admin – Stravex Technologies"
+        description="Admin dashboard"
+        path="/admin"
+        robots="noindex, nofollow, noarchive"
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8 animate-fade-in">

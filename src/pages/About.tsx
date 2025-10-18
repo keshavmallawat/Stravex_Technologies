@@ -1,10 +1,36 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Target, Zap, Users, Globe, Factory, Rocket, Award, Star, CheckCircle } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const About = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.stravextechnologies.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://www.stravextechnologies.com/about"
+      }
+    ]
+  };
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="About – Stravex Technologies"
+        description="Learn about Stravex Technologies' mission, vision, and innovation in tactical defense systems made in India for the world."
+        path="/about"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
