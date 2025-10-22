@@ -2,9 +2,18 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { MapPin, Clock, Users, Briefcase, ArrowRight, Star, Heart, Zap } from "lucide-react";
 
 const Careers = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", position: 2, name: "Careers", item: "https://www.stravextechnologies.com/careers" },
+    ],
+  };
   const jobOpenings = [
     {
       id: "senior-software-engineer",
@@ -100,6 +109,13 @@ const Careers = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO
+        title="Careers – Stravex Technologies"
+        description="Join Stravex Technologies to build innovative tactical defense solutions. Explore open roles and our values."
+        path="/careers"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
