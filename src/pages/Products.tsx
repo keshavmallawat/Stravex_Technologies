@@ -150,7 +150,7 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Cutting-edge tactical solutions designed for mission-critical operations and advanced defense scenarios.
+            Stravex Technologies delivers cutting-edge tactical solutions designed for mission‑critical operations and advanced defense scenarios. Each product from Stravex Technologies focuses on reliability, precision, and rapid deployment.
           </p>
         </div>
 
@@ -198,7 +198,10 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
                     <div>
                       <Badge variant="outline" className="mb-4">{product.category}</Badge>
                       <h3 className="text-3xl font-bold text-foreground mb-2">{product.name}</h3>
-                      <p className="text-lg text-primary font-semibold mb-4">{product.subtitle}</p>
+                      <p className="text-lg text-primary font-semibold">{product.subtitle}</p>
+                      <p className="mt-2 mb-4 text-sm text-muted-foreground">
+                        By <span className="font-medium text-foreground">Stravex Technologies</span>
+                      </p>
                       <p className="text-lg text-muted-foreground">{product.description}</p>
                     </div>
 
@@ -258,7 +261,7 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
               Ready to Enhance Your Operations?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover how our tactical solutions can transform your mission capabilities. Contact us to discuss your specific requirements.
+              Discover how Stravex Technologies can transform your mission capabilities with practical, field‑ready systems. Contact Stravex Technologies to discuss your specific requirements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

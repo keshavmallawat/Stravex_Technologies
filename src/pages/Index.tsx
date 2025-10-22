@@ -31,8 +31,8 @@ const Index = () => {
                 </span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Advanced tactical technologies for detect and intercept operations. 
-                Pushing the boundaries of what's possible in defense and security.
+                Stravex Technologies delivers advanced tactical technologies for detect-and-intercept operations.
+                At Stravex Technologies, we push the boundaries of what's possible in defense and security.
               </p>
             </div>
             
