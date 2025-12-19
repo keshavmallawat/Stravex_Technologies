@@ -14,6 +14,8 @@ import Products from "./pages/Products";
 import Team from "./pages/Team";
 import Technologies from "./pages/Technologies";
 import Contact from "./pages/Contact";
+import Blogs from "./pages/Blogs";
+import Careers from "./pages/Careers";
 import Admin from "./pages/Admin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ContactManager from "./pages/admin/ContactManager";
@@ -37,6 +39,8 @@ const App = () => (
             <Route path="/team" element={<Team />} />
             <Route path="/technologies" element={<Technologies />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/careers" element={<Careers />} />
             <Route path="/admin" element={<Admin />} />
             
             {/* Protected Admin Routes */}

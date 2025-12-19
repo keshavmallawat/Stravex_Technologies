@@ -1,10 +1,36 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Target, Zap, Users, Globe, Factory, Rocket, Award, Star, CheckCircle } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const About = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.stravextechnologies.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "About",
+        "item": "https://www.stravextechnologies.com/about"
+      }
+    ]
+  };
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="About – Stravex Technologies"
+        description="Learn about Stravex Technologies' mission, vision, and innovation in tactical defense systems made in India for the world."
+        path="/about"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
@@ -17,7 +43,7 @@ const About = () => {
           <div className="space-y-6">
             <div className="flex flex-col items-center space-y-4">
               <p className="text-2xl font-bold text-foreground">
-                <span className="text-orange-500">Made in India</span> • <span className="text-blue-500">Made for the World</span>
+                Stravex Technologies — <span className="text-orange-500">Made in India</span> • <span className="text-blue-500">Made for the World</span>
               </p>
               
               {/* Made in India Badges */}
@@ -59,7 +85,7 @@ const About = () => {
             </div>
             
             <p className="text-xl text-muted-foreground max-w-4xl mx-auto">
-              We are more than a startup—we are a movement to position India as the global hub for cutting-edge defense, drone systems, and sustainable technology solutions that empower nations and strengthen global security.
+              Stravex Technologies is more than a startup—we are a movement to position India as the global hub for cutting-edge defense, drone systems, and sustainable technology solutions that empower nations and strengthen global security.
             </p>
           </div>
         </div>
@@ -69,20 +95,20 @@ const About = () => {
           <div className="space-y-6 animate-slide-up">
             <h2 className="text-3xl font-bold text-foreground">Our Mission</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              To engineer excellence that empowers nations, strengthens security, and drives innovation with global impact. We are committed to continuous research, indigenous manufacturing, and creating future-ready, scalable solutions that are globally competitive.
+              At Stravex Technologies, our mission is to engineer excellence that empowers nations, strengthens security, and drives innovation with global impact. We are committed to continuous research, indigenous manufacturing, and creating future-ready, scalable solutions that are globally competitive.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Our mission transcends traditional boundaries—we don't just build products; we craft technological ecosystems that transform how nations protect their interests and advance their capabilities on the global stage.
+              Our mission at Stravex Technologies transcends traditional boundaries—we don't just build products; we craft technological ecosystems that transform how nations protect their interests and advance their capabilities on the global stage.
             </p>
           </div>
 
           <div className="space-y-6 animate-slide-up">
             <h2 className="text-3xl font-bold text-foreground">Our Vision</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              To establish India as the undisputed global leader in defense technology innovation, where "Made in India" becomes synonymous with world-class excellence, cutting-edge innovation, and unwavering reliability.
+              Stravex Technologies aims to establish India as the undisputed global leader in defense technology innovation, where "Made in India" becomes synonymous with world-class excellence, cutting-edge innovation, and unwavering reliability.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              We envision a future where our indigenous technologies not only serve India's defense needs but also become the preferred choice for nations worldwide, setting new benchmarks for tactical superiority and operational excellence.
+              We envision a future where Stravex Technologies' indigenous technologies not only serve India's defense needs but also become the preferred choice for nations worldwide, setting new benchmarks for tactical superiority and operational excellence.
             </p>
           </div>
         </div>

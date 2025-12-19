@@ -1,33 +1,16 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
+import react from "@vitejs/plugin-react";      // switch from -swc to this
 import path from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    host: "::",
-    port: 8080,
-  },
+  base: "/",
+  server: { host: "::", port: 8080 },
   plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
+  resolve: { alias: { "@": path.resolve(__dirname, "./src") } },
   build: {
-    sourcemap: process.env.NODE_ENV === "development",
+    sourcemap: "inline",                        // keep for debugging; we can revert later
     chunkSizeWarningLimit: 700,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes("node_modules")) {
-            if (id.includes("react")) return "vendor-react";
-            if (id.includes("firebase")) return "vendor-firebase";
-            if (id.includes("@radix-ui")) return "vendor-radix";
-            return "vendor";
-          }
-        },
-      },
-    },
+    // Avoid custom vendor chunk splitting; let Rollup decide to prevent TDZ/circular issues
+    // rollupOptions intentionally removed
   },
 });

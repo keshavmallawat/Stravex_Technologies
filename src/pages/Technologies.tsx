@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+
 import { 
   Cpu, 
   Database, 
@@ -14,8 +15,17 @@ import {
   ArrowRight
 } from "lucide-react";
 import TechPillarCard from "@/components/TechPillarCard";
+import SEO from "@/components/SEO";
 
 const Technologies = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Technologies", "item": "https://www.stravextechnologies.com/technologies" }
+    ]
+  };
   const pillars = [
     {
       title: "AI & ML",
@@ -154,6 +164,13 @@ const Technologies = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="Technologies – Stravex Technologies"
+        description="Explore the AI, autonomy, hardware, IoT and core stacks powering Stravex Technologies' tactical solutions."
+        path="/technologies"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
@@ -164,7 +181,7 @@ const Technologies = () => {
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Cutting-edge technologies and development frameworks that power our advanced tactical solutions and drive innovation in defense applications.
+            Stravex Technologies builds cutting-edge technologies and development frameworks that power our advanced tactical solutions and drive innovation in defense applications. At Stravex Technologies, we focus on practical engineering that delivers reliable, mission‑ready capability.
           </p>
         </div>
 

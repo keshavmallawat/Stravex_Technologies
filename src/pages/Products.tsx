@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Radar, Zap, Target, Cpu, Lock } from "lucide-react";
 import stravexHero from "@/assets/stravex-hero.png";
+import SEO from "@/components/SEO";
 
 const Products = () => {
   const products = [
@@ -19,7 +20,7 @@ Using AI-driven optical detection, AgniStrike analyzes an incoming drone’s spe
 
 Built entirely in India, AgniStrike redefines tactical defense, offering unmatched mobility, intelligence, and reliability to protect borders, convoys, and critical infrastructure.
 ➡ Point. Analyze. Press. Protect.`,
-      image: stravexHero,
+      image: "/products/agni-strike.png?v=3",
       features: [
         "AI-driven optical detection",
         "200–250 km/h high-speed interceptor",
@@ -28,7 +29,7 @@ Built entirely in India, AgniStrike redefines tactical defense, offering unmatch
         "Rapid reload for multiple engagements"
       ],
       category: "Tactical Interception",
-      status: "Available"
+      status: "In Development"
     },
     {
       id: "fpv-drones",
@@ -45,7 +46,7 @@ Kamikaze or impact payloads
 Surveillance and sensor modules
 
 These drones combine high-speed maneuverability with real-time FPV control, offering precise, responsive performance in defense, reconnaissance, and field operations.`,
-      image: stravexHero,
+      image: "/products/fpv-drones.png?v=1",
       features: [
         "5-inch, 7-inch, 10-inch configurations",
         "Quick-swap payload mechanism",
@@ -54,7 +55,7 @@ These drones combine high-speed maneuverability with real-time FPV control, offe
         "Agility and endurance for field ops"
       ],
       category: "Aerial Platforms",
-      status: "Development"
+      status: "In Development"
     },
     {
       id: "indigenous-fc-esc",
@@ -111,8 +112,34 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
     }
   ];
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Products", "item": "https://www.stravextechnologies.com/products" }
+    ]
+  };
+
+  const productsJsonLd = products.map((p) => ({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": p.name,
+    "description": p.description.replace(/\n/g, " ").slice(0, 500),
+    "image": p.image ? `https://www.stravextechnologies.com${p.image}` : undefined,
+    "brand": { "@type": "Brand", "name": "Stravex Technologies" },
+    "category": p.category
+  }));
+
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="Products – Stravex Technologies"
+        description="Explore Stravex Technologies' cutting-edge tactical products including AgniStrike, FPV platforms, and indigenous avionics."
+        path="/products"
+        image="/stravex-logo.png"
+        jsonLd={[breadcrumbJsonLd, ...productsJsonLd]}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
@@ -123,7 +150,7 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
             </span>
           </h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Cutting-edge tactical solutions designed for mission-critical operations and advanced defense scenarios.
+            Stravex Technologies delivers cutting-edge tactical solutions designed for mission‑critical operations and advanced defense scenarios. Each product from Stravex Technologies focuses on reliability, precision, and rapid deployment.
           </p>
         </div>
 
@@ -135,8 +162,8 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
                 {/* Product Image */}
                 <div
                   className={`relative ${index % 2 === 1 ? 'lg:col-start-2' : ''} ${
-                    product.id === 'indigenous-fc-esc'
-                      ? 'bg-neutral-200 border border-border rounded-md flex items-center justify-center'
+                    (product.id === 'indigenous-fc-esc' || product.id === 'agni-strike')
+                      ? 'bg-neutral-900 border border-border rounded-md overflow-hidden flex items-center justify-center min-h-[20rem] lg:min-h-[24rem]'
                       : ''
                   }`}
                 >
@@ -145,9 +172,9 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
                       src={product.image} 
                       alt={product.name}
                       className={
-                        product.id === 'indigenous-fc-esc'
-                          ? 'w-full h-80 lg:h-full object-contain bg-neutral-900'
-                          : 'w-full h-80 lg:h-full object-cover'
+                        (product.id === 'indigenous-fc-esc' || product.id === 'agni-strike')
+                          ? 'w-full h-full object-cover'
+                          : 'w-full h-full object-cover'
                       }
                     />
                   ) : (
@@ -171,7 +198,10 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
                     <div>
                       <Badge variant="outline" className="mb-4">{product.category}</Badge>
                       <h3 className="text-3xl font-bold text-foreground mb-2">{product.name}</h3>
-                      <p className="text-lg text-primary font-semibold mb-4">{product.subtitle}</p>
+                      <p className="text-lg text-primary font-semibold">{product.subtitle}</p>
+                      <p className="mt-2 mb-4 text-sm text-muted-foreground">
+                        By <span className="font-medium text-foreground">Stravex Technologies</span>
+                      </p>
                       <p className="text-lg text-muted-foreground">{product.description}</p>
                     </div>
 
@@ -231,7 +261,7 @@ Together, these systems form the core of our Made-in-India drone ecosystem, prov
               Ready to Enhance Your Operations?
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Discover how our tactical solutions can transform your mission capabilities. Contact us to discuss your specific requirements.
+              Discover how Stravex Technologies can transform your mission capabilities with practical, field‑ready systems. Contact Stravex Technologies to discuss your specific requirements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 

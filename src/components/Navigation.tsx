@@ -20,7 +20,7 @@ const Navigation = () => {
     { name: "Products", path: "/products" },
     { name: "Team", path: "/team" },
     { name: "Technologies", path: "/technologies" },
-    { name: "Contact", path: "/contact" },
+    { name: "Contact Us", path: "/contact" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -35,7 +35,7 @@ const Navigation = () => {
               <img
                 src="/stravex-logo.png"
                 alt="Stravex Technologies"
-                className="h-20 sm:h-24 md:h-28 lg:h-32 xl:h-32 w-auto max-w-none object-contain select-none shrink-0 transform scale-[1.4] transition-transform duration-300 origin-left"
+                className="h-12 sm:h-16 md:h-20 lg:h-24 w-auto max-w-none object-contain select-none shrink-0 transition-transform duration-300"
                 draggable={false}
                 onError={() => setLogoError(true)}
               />
