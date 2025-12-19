@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>404</title>
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <link rel="canonical" href="https://www.stravextechnologies.com/" />
+    <meta http-equiv="refresh" content="0; url=/" />
+    <script>
+      (function() {
+        var redirect = sessionStorage.getItem('redirect');
+        if (redirect) {
+          sessionStorage.removeItem('redirect');
+          window.location.replace(redirect);
+        } else {
+          var l = window.location;
+          var path = l.pathname;
+          if (path && path !== '/' && !path.startsWith('/index.html')) {
+            sessionStorage.setItem('redirect', path + l.search + l.hash);
+            window.location.replace('/');
+          }
+        }
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>

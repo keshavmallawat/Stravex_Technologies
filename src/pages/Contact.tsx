@@ -6,8 +6,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { createContactSubmission } from "@/integrations/firebase/contactService";
-import { Mail, Phone, MapPin, Clock, Send, Users } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, Users, Linkedin, Instagram } from "lucide-react";
 import { z } from "zod";
+import SEO from "@/components/SEO";
 
 const contactSchema = z.object({
   name: z.string().trim().nonempty({ message: "Name is required" }).max(100, { message: "Name must be less than 100 characters" }),
@@ -17,6 +18,14 @@ const contactSchema = z.object({
 });
 
 const Contact = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.stravextechnologies.com/contact" }
+    ]
+  };
   const [formData, setFormData] = useState({
     name: "",
     company: "",
@@ -42,7 +51,9 @@ const Contact = () => {
     {
       icon: MapPin,
       title: "Address",
-      details: ["601, Sea Princess, Seawoods, Navi Mumbai"],
+      details: [
+        "Haware Fantasia Business Park, Vashi, Navi Mumbai"
+      ],
       description: "Visit our office"
     },
     {
@@ -50,6 +61,18 @@ const Contact = () => {
       title: "Business Hours",
       details: ["Mon - Sat: 10:00 AM - 7:00 PM"],
       description: "Our availability"
+    },
+    {
+      icon: Linkedin,
+      title: "LinkedIn",
+      details: ["https://www.linkedin.com/company/stravex-technologies/"],
+      description: "Follow our updates"
+    },
+    {
+      icon: Instagram,
+      title: "Instagram",
+      details: ["https://www.instagram.com/stravextechnologies"],
+      description: "See behind the scenes"
     }
   ];
 
@@ -111,6 +134,13 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO 
+        title="Contact – Stravex Technologies"
+        description="Contact Stravex Technologies. Talk to our experts about tactical detection, interception systems, and custom solutions."
+        path="/contact"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16 animate-fade-in">
@@ -230,22 +260,76 @@ const Contact = () => {
             <Card className="p-8 bg-card border-border">
               <h2 className="text-2xl font-bold text-foreground mb-6">Get in Touch</h2>
               <div className="space-y-6">
-                {contactInfo.map((info, index) => (
-                  <div key={index} className="flex items-start space-x-4">
-                    <div className="p-3 bg-primary/10 rounded-full shrink-0">
-                      <info.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="space-y-1">
+                {contactInfo.map((info, index) => {
+                  const primaryDetail = info.details?.[0] ?? "";
+                  let primaryHref = "";
+                  if (info.title === "Email" && primaryDetail) {
+                    primaryHref = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(primaryDetail)}`;
+                  } else if (info.title === "Phone" && primaryDetail) {
+                    primaryHref = `tel:${primaryDetail.replace(/\s+/g, "")}`;
+                  } else if (info.title === "Address" && primaryDetail) {
+                    primaryHref = primaryDetail.startsWith("http")
+                      ? primaryDetail
+                      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(primaryDetail)}`;
+                  } else if ((info.title === "LinkedIn" || info.title === "Instagram") && primaryDetail) {
+                    primaryHref = primaryDetail;
+                  }
+
+                  return (
+                    <div key={index} className="flex items-start space-x-4">
+                      {primaryHref ? (
+                        <a
+                          href={primaryHref}
+                          target="_blank"
+                          rel="noreferrer"
+                          aria-label={info.title}
+                          className="p-3 bg-primary/10 rounded-full shrink-0 hover:bg-primary/20 transition-colors"
+                        >
+                          <info.icon className="h-5 w-5 text-primary" />
+                        </a>
+                      ) : (
+                        <div className="p-3 bg-primary/10 rounded-full shrink-0">
+                          <info.icon className="h-5 w-5 text-primary" />
+                        </div>
+                      )}
+                      <div className="space-y-1">
                       <h3 className="font-semibold text-foreground">{info.title}</h3>
                       <p className="text-sm text-muted-foreground mb-2">{info.description}</p>
-                      {info.details.map((detail, detailIndex) => (
-                        <p key={detailIndex} className="text-sm text-muted-foreground">
-                          {detail}
-                        </p>
-                      ))}
+                      {info.details.map((detail, detailIndex) => {
+                        let href = "";
+                        if (info.title === "Email") {
+                          href = `https://mail.google.com/mail/?view=cm&to=${encodeURIComponent(detail)}`;
+                        } else if (info.title === "Phone") {
+                          href = `tel:${detail.replace(/\s+/g, "")}`;
+                        } else if (info.title === "Address") {
+                          href = detail.startsWith("http") ? detail : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(detail)}`;
+                        } else if (info.title === "LinkedIn" || info.title === "Instagram") {
+                          href = detail;
+                        }
+                        const isLink = Boolean(href);
+                        const displayText = info.title === "Address" && detail.startsWith("http")
+                          ? "Open in Google Maps"
+                          : detail;
+                        return isLink ? (
+                          <a
+                            key={detailIndex}
+                            href={href}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm text-primary hover:underline break-all"
+                          >
+                            {displayText}
+                          </a>
+                        ) : (
+                          <p key={detailIndex} className="text-sm text-muted-foreground">
+                            {detail}
+                          </p>
+                        );
+                      })}
                     </div>
                   </div>
-                ))}
+                  );
+                })}
               </div>
             </Card>
 

@@ -2,25 +2,37 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowRight, Shield, Zap, Target } from "lucide-react";
+import SEO from "@/components/SEO";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid">
+      <SEO 
+        title="Stravex Technologies - Advanced Tactical Solutions"
+        description="Leading innovator in tactical detection and interception systems. Advanced defense technologies for mission-critical operations."
+        path="/"
+        image="/stravex-logo.png"
+        type="website"
+      />
       {/* Hero Section */}
       <section className="pt-28 pb-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="relative text-center space-y-8 animate-fade-in">
             <div className="pointer-events-none absolute inset-0 -z-10 mx-auto max-w-3xl blur-2xl opacity-40" style={{background: 'radial-gradient(600px 200px at 50% 10%, rgba(56,189,248,0.25), transparent 60%)'}} />
             <div className="space-y-4">
-              <h1 className="font-heading text-4xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight drop-shadow-sm">
-                Innovating{" "}
-                <span className="bg-gradient-primary bg-clip-text text-transparent">
-                  Beyond Limits
+              <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-foreground leading-tight drop-shadow-sm">
+                <span className="flex flex-wrap items-baseline gap-3 justify-center">
+                  <span className="font-geo-hero bg-gradient-primary bg-clip-text text-transparent">
+                    Innovating
+                  </span>
+                  <span className="font-geo-hero bg-gradient-primary bg-clip-text text-transparent">
+                    Beyond Limits
+                  </span>
                 </span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Advanced tactical technologies for detect and intercept operations. 
-                Pushing the boundaries of what's possible in defense and security.
+                Stravex Technologies delivers advanced tactical technologies for detect-and-intercept operations.
+                At Stravex Technologies, we push the boundaries of what's possible in defense and security.
               </p>
             </div>
             

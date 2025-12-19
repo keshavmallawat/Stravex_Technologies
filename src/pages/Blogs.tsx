@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 type BlogPost = {
   id: string;
@@ -42,8 +43,23 @@ const demoPosts: BlogPost[] = [
 ];
 
 const Blogs = () => {
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: "https://www.stravextechnologies.com/" },
+      { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.stravextechnologies.com/blogs" },
+    ],
+  };
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
+      <SEO
+        title="Blog – Stravex Technologies"
+        description="Engineering notes, deep dives, and product updates from the Stravex Technologies team."
+        path="/blogs"
+        image="/stravex-logo.png"
+        jsonLd={breadcrumbJsonLd}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in">
         <header className="mb-12 text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
