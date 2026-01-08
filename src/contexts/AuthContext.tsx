@@ -5,7 +5,7 @@ import {
   signOut,
   onAuthStateChanged,
   setPersistence,
-  browserSessionPersistence
+  browserLocalPersistence
 } from 'firebase/auth';
 import { auth, googleProvider, AUTHORIZED_ADMIN_EMAILS } from '@/lib/firebase';
 
@@ -44,8 +44,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithGoogle = async () => {
     try {
-      // Set persistence to SESSION (clears on tab/window close)
-      await setPersistence(auth, browserSessionPersistence);
+      // Set persistence to LOCAL (persists across browser sessions)
+      await setPersistence(auth, browserLocalPersistence);
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error('Error signing in with Google:', error);
