@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, Clock, User, Share2, Loader2, X, ZoomIn } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, Link2, Loader2, X, ZoomIn } from "lucide-react";
 import SEO from "@/components/SEO";
 import { getBlogPosts, type BlogPost, incrementBlogView } from "@/integrations/firebase/blogService";
 import { formatDateWithMonthName } from "@/utils/dateUtils";
@@ -16,6 +16,18 @@ const BlogPost = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+    // Share functionality
+    const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+
+    const handleCopyLink = async () => {
+        try {
+            await navigator.clipboard.writeText(shareUrl);
+            alert('Link copied to clipboard!');
+        } catch (err) {
+            console.error('Failed to copy link:', err);
+        }
+    };
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -39,6 +51,7 @@ const BlogPost = () => {
 
         fetchPost();
     }, [id]);
+
 
     if (loading) {
         return (
@@ -76,11 +89,23 @@ const BlogPost = () => {
 
                 <article className="glass p-6 md:p-10 rounded-2xl border border-border/50 shadow-2xl backdrop-blur-xl bg-card/30">
                     <header className="mb-8 border-b border-border/50 pb-8">
-                        <div className="flex gap-2 mb-4 flex-wrap">
-                            {post.tags.map(tag => (
-                                <Badge key={tag} variant="secondary" className="px-3 py-1">{tag}</Badge>
-                            ))}
+                        <div className="flex justify-between items-start mb-4">
+                            <div className="flex gap-2 flex-wrap flex-1">
+                                {post.tags.map(tag => (
+                                    <Badge key={tag} variant="secondary" className="px-3 py-1">{tag}</Badge>
+                                ))}
+                            </div>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={handleCopyLink}
+                                className="flex items-center gap-2 ml-4"
+                            >
+                                <Link2 className="h-4 w-4" />
+                                Share
+                            </Button>
                         </div>
+                        
                         <h1 className="text-3xl md:text-5xl font-bold text-foreground mb-6 leading-tight font-heading">
                             {post.title}
                         </h1>
