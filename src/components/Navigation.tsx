@@ -30,13 +30,13 @@ const Navigation = () => {
     <nav className="sticky top-0 z-50 bg-background/80 backdrop-blur border-b border-border">
       <div className="max-w-7xl mx-auto px-4">
         {/* Single-row header: logo left, nav right (no pill styling) */}
-        <div className="flex items-center justify-between py-0 min-h-16">
-          <Link to="/" className="flex items-center gap-1 min-w-0">
+        <div className="flex items-center justify-between py-0 min-h-12">
+          <Link to="/" className="flex items-center gap-1 min-w-0 overflow-visible">
             {!logoError ? (
               <img
                 src="/stravex-logo.png"
                 alt="Stravex Technologies"
-                className="h-12 sm:h-16 md:h-20 lg:h-24 w-auto max-w-none object-contain select-none shrink-0 transition-transform duration-300"
+                className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto max-w-none object-contain select-none shrink-0 transition-transform duration-300 hover:scale-110 scale-150"
                 draggable={false}
                 onError={() => setLogoError(true)}
               />
