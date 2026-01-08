@@ -1,31 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
-    <title>Redirecting...</title>
+    <meta charset="utf-8" />
     <script>
-      // GitHub Pages SPA redirect pattern
-      (function() {
-        var redirect = sessionStorage.getItem('redirect');
-        if (redirect) {
-          sessionStorage.removeItem('redirect');
-          window.location.replace(redirect);
-        } else {
-          var l = window.location;
-          var path = l.pathname;
-          var search = l.search;
-          var hash = l.hash;
-          
-          // Only redirect if not already at root or index.html
-          if (path && path !== '/' && !path.startsWith('/index.html')) {
-            sessionStorage.setItem('redirect', path + search + hash);
-            window.location.replace('/');
-          }
-        }
-      })();
+      sessionStorage.redirect = location.pathname;
+      location.replace("/");
     </script>
   </head>
-  <body>
-    <p>Redirecting...</p>
-  </body>
+  <body></body>
 </html>
