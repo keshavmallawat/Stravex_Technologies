@@ -3,7 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Calendar, Clock, User, Share2, Loader2 } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, Share2, Loader2, X, ZoomIn } from "lucide-react";
 import SEO from "@/components/SEO";
 import { getBlogPosts, type BlogPost } from "@/integrations/firebase/blogService";
 import { formatDateWithMonthName } from "@/utils/dateUtils";
@@ -15,6 +15,7 @@ const BlogPost = () => {
     const [post, setPost] = useState<BlogPost | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -95,12 +96,15 @@ const BlogPost = () => {
                     </header>
 
                     {post.coverImage && (
-                        <div className="aspect-video w-full rounded-xl overflow-hidden mb-12 bg-muted/30 border border-border shadow-lg">
+                        <div className="aspect-video w-full rounded-xl overflow-hidden mb-12 bg-muted/30 border border-border shadow-lg relative group cursor-pointer" onClick={() => setSelectedImage(post.coverImage)}>
                             <img
                                 src={post.coverImage}
                                 alt={post.title}
                                 className="w-full h-full object-cover"
                             />
+                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200">
+                                <ZoomIn className="h-8 w-8 text-white" />
+                            </div>
                         </div>
                     )}
 
@@ -109,6 +113,35 @@ const BlogPost = () => {
                     </div>
                 </article>
             </div>
+
+            {/* Image Viewer Modal */}
+            {selectedImage && (
+                <div 
+                    className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+                    onClick={() => setSelectedImage(null)}
+                >
+                    <div 
+                        className="relative w-full h-full max-w-full max-h-full flex items-center justify-center"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={() => setSelectedImage(null)}
+                            className="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
+                            aria-label="Close image viewer"
+                        >
+                            <X className="h-6 w-6 text-gray-800" />
+                        </button>
+
+                        {/* Image */}
+                        <img
+                            src={selectedImage}
+                            alt="Blog cover image full view"
+                            className="max-w-full max-h-full object-contain"
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

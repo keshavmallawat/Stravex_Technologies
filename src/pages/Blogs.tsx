@@ -117,7 +117,7 @@ const Blogs = () => {
           onClick={() => setSelectedImage(null)}
         >
           <div 
-            className="relative max-w-6xl max-h-[90vh] bg-white rounded-lg"
+            className="relative w-full h-full max-w-full max-h-full flex items-center justify-center"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -133,7 +133,7 @@ const Blogs = () => {
             <img
               src={selectedImage}
               alt="Blog cover image full view"
-              className="w-full h-full object-contain rounded-lg"
+              className="max-w-full max-h-full object-contain"
             />
           </div>
         </div>
