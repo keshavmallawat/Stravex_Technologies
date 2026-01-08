@@ -125,59 +125,88 @@ const Index = () => {
         </div>
       </section>
 
-      {/* SINE IIT Bombay Pre-incubation Section */}
+      {/* Combined Incubation Showcase Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          <Card className="p-8 bg-gradient-to-r from-blue-600/5 to-blue-800/5 border-blue-500/20">
-            <div className="text-center space-y-6">
-              <div className="flex justify-center">
-                <div className="p-6">
-                  <div className="text-center">
-                    <img
-                      src="/iitb-logo.png"
-                      alt="IIT Bombay - SINE Business Incubator"
-                      className="h-24 sm:h-28 md:h-32 w-auto object-contain"
-                    />
-                  </div>
+          <div className="text-center space-y-6 mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+              Trusted by India's Leading Incubators
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+              Proudly associated with premier institutions that fuel our innovation and growth
+            </p>
+          </div>
+
+          <div className="flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-16">
+            {/* SINE IIT Bombay */}
+            <div className="relative group flex-shrink-0">
+              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300" />
+              <div className="relative p-8 text-center space-y-6 border border-border/50 rounded-2xl bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
+                <div className="mx-auto w-32 h-32 flex items-center justify-center p-4">
+                  <img
+                    src="/iitb-logo.png"
+                    alt="IIT Bombay - SINE Business Incubator"
+                    className="max-w-full max-h-full w-auto h-auto object-contain opacity-80 group-hover:opacity-100 transition-opacity"
+                  />
                 </div>
-              </div>
-              
-              <div className="space-y-2">
-                <h3 className="text-2xl md:text-3xl font-bold text-foreground">
-                  Pre-incubated at SINE IIT Bombay
-                </h3>
-                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-                  Stravex Technologies is proud to be pre-incubated at the Society for Innovation and Entrepreneurship (SINE) at the prestigious Indian Institute of Technology Bombay. This partnership validates our innovative approach to tactical defense technology and provides us with world-class mentorship and resources.
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
-                <div className="text-center space-y-2">
-                  <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <span className="text-blue-500 font-bold text-lg">🏛️</span>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-bold text-foreground">SINE IIT Bombay</h3>
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                    Pre-incubated
                   </div>
-                  <h4 className="font-semibold text-foreground">IIT Bombay</h4>
-                  <p className="text-sm text-muted-foreground">Premier Technical Institute</p>
-                </div>
-                
-                <div className="text-center space-y-2">
-                  <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <span className="text-blue-500 font-bold text-lg">🚀</span>
-                  </div>
-                  <h4 className="font-semibold text-foreground">Innovation Hub</h4>
-                  <p className="text-sm text-muted-foreground">Cutting-edge Research & Development</p>
-                </div>
-                
-                <div className="text-center space-y-2">
-                  <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center mx-auto">
-                    <span className="text-blue-500 font-bold text-lg">🤝</span>
-                  </div>
-                  <h4 className="font-semibold text-foreground">Mentorship</h4>
-                  <p className="text-sm text-muted-foreground">Expert Guidance & Support</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Society for Innovation and Entrepreneurship
+                  </p>
                 </div>
               </div>
             </div>
-          </Card>
+
+            {/* MAGIC */}
+            <div className="relative group flex-shrink-0">
+              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300" />
+              <div className="relative p-8 text-center space-y-6 border border-border/50 rounded-2xl bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
+                <div className="mx-auto w-32 h-32 flex items-center justify-center p-4">
+                  <img
+                    src="/magic-logo.png"
+                    alt="Marathwada Accelerator for Growth and Incubation Council"
+                    className="max-w-full max-h-full w-auto h-auto object-contain scale-150 opacity-80 group-hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-bold text-foreground">MAGIC</h3>
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                    Incubated
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Marathwada Accelerator for Growth & Incubation
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* IIT Ropar TBIF */}
+            <div className="relative group flex-shrink-0">
+              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-300" />
+              <div className="relative p-8 text-center space-y-6 border border-border/50 rounded-2xl bg-card/50 backdrop-blur-sm hover:bg-card/80 transition-all duration-300">
+                <div className="mx-auto w-32 h-32 flex items-center justify-center p-4">
+                  <img
+                    src="/iit-ropar-logo.png"
+                    alt="IIT Ropar Technology Business Incubator Foundation"
+                    className="max-w-full max-h-full w-auto h-auto object-contain opacity-80 group-hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <div className="space-y-3">
+                  <h3 className="text-xl font-bold text-foreground">IIT Ropar TBIF</h3>
+                  <div className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+                    Incubated
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    Technology Business Incubator Foundation
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
