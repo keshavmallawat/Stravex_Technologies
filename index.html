@@ -74,6 +74,17 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      // GitHub Pages SPA route restoration
+      (function() {
+        var redirect = sessionStorage.getItem('redirect');
+        if (redirect) {
+          sessionStorage.removeItem('redirect');
+          // Use history.replaceState to avoid creating a history entry
+          window.history.replaceState(null, '', redirect);
+        }
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
