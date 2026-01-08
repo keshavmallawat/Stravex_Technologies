@@ -28,8 +28,13 @@ import {
   MessageSquare
 } from 'lucide-react';
 import { getContactSubmissions, subscribeContactSubmissions, deleteContactSubmission } from '@/integrations/firebase/contactService';
+import type { ContactSubmission } from '@/integrations/firebase/types';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { collection, addDoc, doc, deleteDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '@/integrations/firebase/config';
+
+const COLLECTION_NAME = 'contact_submissions';
 
 interface ContactSubmissionRow {
   id: string;
@@ -50,6 +55,7 @@ const ContactManager: React.FC = () => {
   useEffect(() => {
     // Initial fetch + realtime subscribe
     fetchContacts();
+    
     const unsubscribe = subscribeContactSubmissions((rows) => {
       const mapped = rows.map((s) => ({
         id: s.id,
@@ -61,7 +67,9 @@ const ContactManager: React.FC = () => {
       }));
       setContacts(mapped);
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -95,7 +103,7 @@ const ContactManager: React.FC = () => {
 
   const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(
-      contacts.map(contact => ({
+      filteredContacts.map(contact => ({
         Name: contact.name,
         Email: contact.email,
         Message: contact.message,
@@ -192,113 +200,113 @@ const ContactManager: React.FC = () => {
             <TableBody>
               {filteredContacts.length > 0 ? (
                 filteredContacts.map((contact) => (
-                  <TableRow key={contact.id}>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <User className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-medium">{contact.name}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Mail className="h-4 w-4 text-muted-foreground" />
-                        <span>{contact.email}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-sm line-clamp-1">{contact.message}</span>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">
-                          {new Date(contact.created_at).toLocaleDateString()}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm"
-                              onClick={() => setSelectedContact(contact)}
-                            >
-                              <Eye className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent className="max-w-2xl">
-                            <DialogHeader>
-                              <DialogTitle className="flex items-center space-x-2">
-                                <MessageSquare className="h-5 w-5" />
-                                <span>Contact Details</span>
-                              </DialogTitle>
-                            </DialogHeader>
-                            
-                            {selectedContact && (
-                              <div className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
-                                  <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Name</label>
-                                    <p className="text-foreground">{selectedContact.name}</p>
-                                  </div>
-                                  <div>
-                                    <label className="text-sm font-medium text-muted-foreground">Email</label>
-                                    <p className="text-foreground">{selectedContact.email}</p>
-                                  </div>
-                                  {selectedContact.company && (
+                    <TableRow key={contact.id}>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <User className="h-4 w-4 text-muted-foreground" />
+                          <span className="font-medium">{contact.name}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Mail className="h-4 w-4 text-muted-foreground" />
+                          <span>{contact.email}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm line-clamp-1">{contact.message}</span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Calendar className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm">
+                            {new Date(contact.created_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Dialog>
+                            <DialogTrigger asChild>
+                              <Button 
+                                variant="ghost" 
+                                size="sm"
+                                onClick={() => setSelectedContact(contact)}
+                              >
+                                <Eye className="h-4 w-4" />
+                              </Button>
+                            </DialogTrigger>
+                            <DialogContent className="max-w-2xl">
+                              <DialogHeader>
+                                <DialogTitle className="flex items-center space-x-2">
+                                  <MessageSquare className="h-5 w-5" />
+                                  <span>Contact Details</span>
+                                </DialogTitle>
+                              </DialogHeader>
+                              
+                              {selectedContact && (
+                                <div className="space-y-4">
+                                  <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                      <label className="text-sm font-medium text-muted-foreground">Company</label>
-                                      <p className="text-foreground">{selectedContact.company}</p>
+                                      <label className="text-sm font-medium text-muted-foreground">Name</label>
+                                      <p className="text-foreground">{selectedContact.name}</p>
                                     </div>
-                                  )}
-                                </div>
-                                
-                                <div>
-                                  <label className="text-sm font-medium text-muted-foreground">Message</label>
-                                  <div className="p-3 bg-secondary rounded-lg">
-                                    <p className="text-foreground whitespace-pre-wrap">
-                                      {selectedContact.message}
+                                    <div>
+                                      <label className="text-sm font-medium text-muted-foreground">Email</label>
+                                      <p className="text-foreground">{selectedContact.email}</p>
+                                    </div>
+                                    {selectedContact.company && (
+                                      <div>
+                                        <label className="text-sm font-medium text-muted-foreground">Company</label>
+                                        <p className="text-foreground">{selectedContact.company}</p>
+                                      </div>
+                                    )}
+                                  </div>
+                                  
+                                  <div>
+                                    <label className="text-sm font-medium text-muted-foreground">Message</label>
+                                    <div className="p-3 bg-secondary rounded-lg">
+                                      <p className="text-foreground whitespace-pre-wrap">
+                                        {selectedContact.message}
+                                      </p>
+                                    </div>
+                                  </div>
+                                  
+                                  <div>
+                                    <label className="text-sm font-medium text-muted-foreground">Submitted</label>
+                                    <p className="text-foreground">
+                                      {new Date(selectedContact.created_at).toLocaleString()}
                                     </p>
                                   </div>
                                 </div>
-                                
-                                <div>
-                                  <label className="text-sm font-medium text-muted-foreground">Submitted</label>
-                                  <p className="text-foreground">
-                                    {new Date(selectedContact.created_at).toLocaleString()}
-                                  </p>
-                                </div>
-                              </div>
-                            )}
-                          </DialogContent>
-                        </Dialog>
-                        
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => deleteContact(contact.id)}
-                          className="text-destructive hover:text-destructive"
-                        >
-                          Delete
-                        </Button>
+                              )}
+                            </DialogContent>
+                          </Dialog>
+                          
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => deleteContact(contact.id)}
+                            className="text-destructive hover:text-destructive"
+                          >
+                            Delete
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center py-8">
+                      <div className="flex flex-col items-center space-y-2">
+                        <MessageSquare className="h-12 w-12 text-muted-foreground" />
+                        <p className="text-muted-foreground">
+                          {searchTerm ? 'No contacts found matching your search' : 'No contact submissions yet'}
+                        </p>
                       </div>
                     </TableCell>
                   </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8">
-                    <div className="flex flex-col items-center space-y-2">
-                      <MessageSquare className="h-12 w-12 text-muted-foreground" />
-                      <p className="text-muted-foreground">
-                        {searchTerm ? 'No contacts found matching your search' : 'No contact submissions yet'}
-                      </p>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
+                )}
             </TableBody>
           </Table>
         </div>

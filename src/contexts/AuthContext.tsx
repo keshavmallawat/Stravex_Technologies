@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  User, 
-  signInWithPopup, 
-  signOut, 
-  onAuthStateChanged 
+import {
+  User,
+  signInWithPopup,
+  signOut,
+  onAuthStateChanged,
+  setPersistence,
+  browserSessionPersistence
 } from 'firebase/auth';
 import { auth, googleProvider, AUTHORIZED_ADMIN_EMAILS } from '@/lib/firebase';
 
@@ -42,6 +44,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signInWithGoogle = async () => {
     try {
+      // Set persistence to SESSION (clears on tab/window close)
+      await setPersistence(auth, browserSessionPersistence);
       await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error('Error signing in with Google:', error);

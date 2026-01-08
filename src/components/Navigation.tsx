@@ -20,6 +20,7 @@ const Navigation = () => {
     { name: "Products", path: "/products" },
     { name: "Team", path: "/team" },
     { name: "Technologies", path: "/technologies" },
+    { name: "Blogs", path: "/blogs" },
     { name: "Contact Us", path: "/contact" },
   ];
 
@@ -88,11 +89,10 @@ const Navigation = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`block px-4 py-3 text-base font-semibold transition-colors ${
-                    isActive(item.path)
+                  className={`block px-4 py-3 text-base font-semibold transition-colors ${isActive(item.path)
                       ? "text-primary"
                       : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                  }`}
+                    }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {item.name}

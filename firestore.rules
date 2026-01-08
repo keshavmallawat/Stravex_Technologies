@@ -7,7 +7,7 @@ service cloud.firestore {
     }
     
     // Contact submissions - allow create for public, read/write for admins only
-    match /contacts/{contactId} {
+    match /contact_submissions/{contactId} {
       allow create: if true; // Public can submit contact forms
       allow read, write, delete: if isAdmin();
     }
@@ -33,8 +33,8 @@ service cloud.firestore {
     function isAdmin() {
       return request.auth != null && 
              request.auth.token.email in [
-               'boss1@company.com',
-               'boss2@company.com'
+               'mallawatkeshav@gmail.com',
+               'krishnamallawat29@gmail.com'
              ];
     }
   }
