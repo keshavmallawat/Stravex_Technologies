@@ -3,18 +3,18 @@ import { Link, useLocation, Outlet } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { 
-  LayoutDashboard, 
-  MessageSquare, 
-  FileText, 
-  Briefcase, 
-  LogOut, 
+import {
+  LayoutDashboard,
+  MessageSquare,
+  FileText,
+  Briefcase,
+  LogOut,
   User,
   Menu,
   X
@@ -29,6 +29,7 @@ const AdminLayout: React.FC = () => {
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
     { name: 'Contact Manager', path: '/admin/contacts', icon: MessageSquare },
+    { name: 'Blog Manager', path: '/admin/blogs', icon: FileText },
   ];
 
   const isActive = (path: string) => {
@@ -47,10 +48,10 @@ const AdminLayout: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-hero bg-grid">
+    <div className="min-h-screen bg-gradient-hero bg-grid flex">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-black/50 md:hidden"
           onClick={() => setSidebarOpen(false)}
         />
@@ -66,13 +67,9 @@ const AdminLayout: React.FC = () => {
           {/* Logo */}
           <div className="p-6 border-b border-border">
             <Link to="/admin" className="flex items-center space-x-3">
-              <img
-                src="/stravex-logo.png"
-                alt="Stravex Technologies"
-                className="h-12 sm:h-14 md:h-16 lg:h-20 xl:h-24 w-auto object-contain select-none"
-                draggable={false}
-              />
-              <div className="text-xs text-muted-foreground">ADMIN</div>
+              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent">
+                Admin Panel
+              </span>
             </Link>
           </div>
 
@@ -84,8 +81,8 @@ const AdminLayout: React.FC = () => {
                 to={item.path}
                 className={`
                   flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors
-                  ${isActive(item.path) 
-                    ? 'bg-primary/10 text-primary border border-primary/20' 
+                  ${isActive(item.path)
+                    ? 'bg-primary/10 text-primary border border-primary/20'
                     : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
                   }
                 `}
@@ -130,7 +127,7 @@ const AdminLayout: React.FC = () => {
       </div>
 
       {/* Main content */}
-      <div className="md:ml-64">
+      <div className="flex-1 w-full">
         {/* Top bar */}
         <header className="glass border-b border-border p-4">
           <div className="flex items-center justify-between">
@@ -142,7 +139,7 @@ const AdminLayout: React.FC = () => {
             >
               {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </Button>
-            
+
             <div className="flex items-center space-x-4">
               <span className="text-sm text-muted-foreground">
                 Welcome back, {user?.displayName || 'Admin'}

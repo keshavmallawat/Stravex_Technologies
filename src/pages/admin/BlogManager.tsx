@@ -1,483 +1,208 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
-} from '@/components/ui/dialog';
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Eye, 
-  Upload,
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  Plus,
+  Pencil,
+  Trash2,
+  MoreHorizontal,
+  Eye,
+  Loader2,
   Calendar,
-  FileText,
-  Image as ImageIcon
+  AlertCircle
 } from 'lucide-react';
-import { 
-  collection, 
-  getDocs, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc,
-  doc,
-  query, 
-  orderBy, 
-  Timestamp
-} from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { db, storage } from '@/lib/firebase';
-import { useDropzone } from 'react-dropzone';
-
-interface BlogPost {
-  id: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  imageUrl?: string;
-  published: boolean;
-  createdAt: Timestamp;
-  updatedAt: Timestamp;
-  author: string;
-  tags: string[];
-}
+import { useToast } from '@/hooks/use-toast';
+import { useNavigate, Link } from 'react-router-dom';
+import {
+  getBlogPosts,
+  deleteBlogPost,
+  type BlogPost
+} from '@/integrations/firebase/blogService';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogFooter,
+  DialogTitle
+} from '@/components/ui/dialog';
 
 const BlogManager: React.FC = () => {
-  const [blogs, setBlogs] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingBlog, setEditingBlog] = useState<BlogPost | null>(null);
-  const [uploading, setUploading] = useState(false);
-  
-  // Form state
-  const [formData, setFormData] = useState({
-    title: '',
-    content: '',
-    excerpt: '',
-    published: false,
-    author: '',
-    tags: ''
-  });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>('');
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchBlogs();
+    fetchPosts();
   }, []);
 
-  const fetchBlogs = async () => {
+  const fetchPosts = async () => {
     try {
-      const blogsQuery = query(
-        collection(db, 'blogs'),
-        orderBy('createdAt', 'desc')
-      );
-      const snapshot = await getDocs(blogsQuery);
-      const blogsData = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      })) as BlogPost[];
-      
-      setBlogs(blogsData);
+      const data = await getBlogPosts();
+      setPosts(data);
     } catch (error) {
-      console.error('Error fetching blogs:', error);
+      console.error('Error fetching blog posts:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    accept: {
-      'image/*': ['.jpeg', '.jpg', '.png', '.gif', '.webp']
-    },
-    maxFiles: 1,
-    onDrop: (acceptedFiles) => {
-      if (acceptedFiles[0]) {
-        setImageFile(acceptedFiles[0]);
-        setImagePreview(URL.createObjectURL(acceptedFiles[0]));
-      }
-    }
-  });
-
-  const uploadImage = async (file: File): Promise<string> => {
-    const imageRef = ref(storage, `blog-images/${Date.now()}-${file.name}`);
-    await uploadBytes(imageRef, file);
-    return await getDownloadURL(imageRef);
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setUploading(true);
-
+  const handleDelete = async () => {
+    if (!deleteId) return;
     try {
-      let imageUrl = editingBlog?.imageUrl || '';
-
-      // Upload new image if selected
-      if (imageFile) {
-        imageUrl = await uploadImage(imageFile);
-      }
-
-      const blogData = {
-        ...formData,
-        tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
-        imageUrl,
-        updatedAt: Timestamp.now(),
-        ...(editingBlog ? {} : { createdAt: Timestamp.now() })
-      };
-
-      if (editingBlog) {
-        // Update existing blog
-        await updateDoc(doc(db, 'blogs', editingBlog.id), blogData);
-      } else {
-        // Create new blog
-        await addDoc(collection(db, 'blogs'), blogData);
-      }
-
-      // Reset form
-      resetForm();
-      setIsDialogOpen(false);
-      fetchBlogs();
+      await deleteBlogPost(deleteId);
+      setPosts(posts.filter(p => p.id !== deleteId));
+      toast({ title: "Success", description: "Post deleted successfully" });
     } catch (error) {
-      console.error('Error saving blog:', error);
+      console.error(error);
+      toast({ title: "Error", description: "Failed to delete post", variant: "destructive" });
     } finally {
-      setUploading(false);
+      setDeleteId(null);
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      title: '',
-      content: '',
-      excerpt: '',
-      published: false,
-      author: '',
-      tags: ''
-    });
-    setImageFile(null);
-    setImagePreview('');
-    setEditingBlog(null);
-  };
-
-  const handleEdit = (blog: BlogPost) => {
-    setEditingBlog(blog);
-    setFormData({
-      title: blog.title,
-      content: blog.content,
-      excerpt: blog.excerpt,
-      published: blog.published,
-      author: blog.author,
-      tags: blog.tags.join(', ')
-    });
-    setImagePreview(blog.imageUrl || '');
-    setIsDialogOpen(true);
-  };
-
-  const handleDelete = async (blogId: string, imageUrl?: string) => {
-    if (window.confirm('Are you sure you want to delete this blog post?')) {
-      try {
-        // Delete image from storage if exists
-        if (imageUrl) {
-          const imageRef = ref(storage, imageUrl);
-          await deleteObject(imageRef);
-        }
-        
-        // Delete blog document
-        await deleteDoc(doc(db, 'blogs', blogId));
-        setBlogs(blogs.filter(blog => blog.id !== blogId));
-      } catch (error) {
-        console.error('Error deleting blog:', error);
-      }
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'published': return 'default';
+      case 'draft': return 'secondary';
+      case 'scheduled': return 'outline';
+      default: return 'secondary';
     }
   };
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <div>
-            <h1 className="font-heading text-3xl font-bold text-foreground mb-2">
-              Blog Manager
-            </h1>
-            <p className="text-muted-foreground">Loading blogs...</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <div className="flex justify-center py-12"><Loader2 className="animate-spin" /></div>;
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex justify-between items-center">
         <div>
-          <h1 className="font-heading text-3xl font-bold text-foreground mb-2">
-            Blog Manager
-          </h1>
-          <p className="text-muted-foreground">
-            Manage blog posts ({blogs.length} total)
-          </p>
+          <h1 className="font-heading text-3xl font-bold text-foreground">Blog Manager</h1>
+          <p className="text-muted-foreground">Manage your articles and stories</p>
         </div>
-        
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button 
-              className="bg-gradient-primary neon-ring hover:shadow-glow"
-              onClick={() => {
-                resetForm();
-                setIsDialogOpen(true);
-              }}
-            >
-              <Plus className="mr-2 h-4 w-4" />
-              New Blog Post
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>
-                {editingBlog ? 'Edit Blog Post' : 'Create New Blog Post'}
-              </DialogTitle>
-            </DialogHeader>
-            
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-foreground">Title</label>
-                  <Input
-                    value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                    placeholder="Blog post title"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-foreground">Author</label>
-                  <Input
-                    value={formData.author}
-                    onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                    placeholder="Author name"
-                    required
-                  />
-                </div>
-                
-                <div>
-                  <label className="text-sm font-medium text-foreground">Tags (comma-separated)</label>
-                  <Input
-                    value={formData.tags}
-                    onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
-                    placeholder="technology, defense, innovation"
-                  />
-                </div>
-                
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-foreground">Excerpt</label>
-                  <Textarea
-                    value={formData.excerpt}
-                    onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                    placeholder="Brief description of the blog post"
-                    rows={3}
-                    required
-                  />
-                </div>
-                
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-foreground">Content</label>
-                  <Textarea
-                    value={formData.content}
-                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                    placeholder="Blog post content"
-                    rows={10}
-                    required
-                  />
-                </div>
-                
-                <div className="md:col-span-2">
-                  <label className="text-sm font-medium text-foreground">Featured Image</label>
-                  <div
-                    {...getRootProps()}
-                    className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-                      isDragActive 
-                        ? 'border-primary bg-primary/10' 
-                        : 'border-border hover:border-primary/50'
-                    }`}
-                  >
-                    <input {...getInputProps()} />
-                    {imagePreview ? (
-                      <div className="space-y-2">
-                        <img 
-                          src={imagePreview} 
-                          alt="Preview" 
-                          className="max-h-32 mx-auto rounded-lg"
-                        />
-                        <p className="text-sm text-muted-foreground">
-                          Click or drag to replace image
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="space-y-2">
-                        <ImageIcon className="h-8 w-8 text-muted-foreground mx-auto" />
-                        <p className="text-sm text-muted-foreground">
-                          {isDragActive 
-                            ? 'Drop the image here' 
-                            : 'Click or drag to upload image'
-                          }
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="md:col-span-2">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      checked={formData.published}
-                      onChange={(e) => setFormData({ ...formData, published: e.target.checked })}
-                      className="rounded"
-                    />
-                    <span className="text-sm font-medium text-foreground">Published</span>
-                  </label>
-                </div>
-              </div>
-              
-              <div className="flex justify-end space-x-2 pt-4">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={() => setIsDialogOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  type="submit" 
-                  disabled={uploading}
-                  className="bg-gradient-primary neon-ring hover:shadow-glow"
-                >
-                  {uploading ? (
-                    <>
-                      <Upload className="mr-2 h-4 w-4 animate-spin" />
-                      {editingBlog ? 'Updating...' : 'Creating...'}
-                    </>
-                  ) : (
-                    editingBlog ? 'Update Post' : 'Create Post'
-                  )}
-                </Button>
-              </div>
-            </form>
-          </DialogContent>
-        </Dialog>
+        <Button onClick={() => navigate('/admin/blogs/new')}>
+          <Plus className="mr-2 h-4 w-4" /> New Post
+        </Button>
       </div>
 
-      {/* Blogs Table */}
       <Card className="glass">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[400px]">Title</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Views</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {posts.length === 0 ? (
               <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Author</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableCell colSpan={5} className="text-center py-12">
+                  No posts found. Create your first blog post!
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {blogs.length > 0 ? (
-                blogs.map((blog) => (
-                  <TableRow key={blog.id}>
-                    <TableCell>
-                      <div className="flex items-center space-x-3">
-                        {blog.imageUrl && (
-                          <img 
-                            src={blog.imageUrl} 
-                            alt={blog.title}
-                            className="h-10 w-10 rounded-lg object-cover"
-                          />
-                        )}
-                        <div>
-                          <p className="font-medium text-foreground">{blog.title}</p>
-                          <p className="text-sm text-muted-foreground line-clamp-1">
-                            {blog.excerpt}
-                          </p>
-                        </div>
+            ) : (
+              posts.map((post) => (
+                <TableRow key={post.id}>
+                  <TableCell>
+                    <div className="flex items-center space-x-3">
+                      {post.coverImage ? (
+                        <img
+                          src={post.coverImage}
+                          alt=""
+                          className="h-10 w-16 object-cover rounded bg-muted"
+                        />
+                      ) : (
+                        <div className="h-10 w-16 bg-muted rounded"></div>
+                      )}
+                      <div>
+                        <p className="font-medium line-clamp-1">{post.title}</p>
+                        <p className="text-xs text-muted-foreground">/{post.slug}</p>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-sm">{blog.author}</span>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant={blog.published ? 'default' : 'secondary'}>
-                        {blog.published ? 'Published' : 'Draft'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm">
-                          {blog.createdAt.toDate().toLocaleDateString()}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => handleEdit(blog)}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          onClick={() => handleDelete(blog.id, blog.imageUrl)}
-                          className="text-destructive hover:text-destructive"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8">
-                    <div className="flex flex-col items-center space-y-2">
-                      <FileText className="h-12 w-12 text-muted-foreground" />
-                      <p className="text-muted-foreground">No blog posts yet</p>
-                      <Button 
-                        onClick={() => setIsDialogOpen(true)}
-                        className="bg-gradient-primary neon-ring hover:shadow-glow"
-                      >
-                        <Plus className="mr-2 h-4 w-4" />
-                        Create First Post
-                      </Button>
                     </div>
                   </TableCell>
+                  <TableCell>
+                    <Badge variant={getStatusColor(post.status) as any}>
+                      {post.status}
+                    </Badge>
+                  </TableCell>
+                  <TableCell>{post.views || 0}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col text-xs text-muted-foreground">
+                      <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                      {post.status === 'scheduled' && post.scheduledDate && (
+                        <span className="text-orange-500">
+                          Due: {new Date(post.scheduledDate).toLocaleDateString()}
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                          <MoreHorizontal className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuItem onClick={() => navigate(`/admin/blogs/${post.id}/edit`)}>
+                          <Pencil className="mr-2 h-4 w-4" /> Edit
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link to={`/blogs/${post.id}`} target="_blank">
+                            <Eye className="mr-2 h-4 w-4" /> Preview
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => setDeleteId(post.id)}
+                          className="text-destructive focus:text-destructive"
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" /> Delete
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
+              ))
+            )}
+          </TableBody>
+        </Table>
       </Card>
+
+      <Dialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Post</DialogTitle>
+          </DialogHeader>
+          <div className="flex items-center gap-3 text-destructive py-4">
+            <AlertCircle className="h-6 w-6" />
+            <p>Are you sure you want to delete this post? This action cannot be undone.</p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setDeleteId(null)}>Cancel</Button>
+            <Button variant="destructive" onClick={handleDelete}>Delete</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
 
 export default BlogManager;
-
-

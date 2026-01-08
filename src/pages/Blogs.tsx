@@ -1,48 +1,30 @@
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
-
-type BlogPost = {
-  id: string;
-  title: string;
-  date: string;
-  tags: string[];
-  excerpt: string;
-  cover: string;
-};
-
-const demoPosts: BlogPost[] = [
-  {
-    id: "edge-ai-radar",
-    title: "Edge AI for Tactical Radar: Latency, Models, and Hardware",
-    date: "2025-09-21",
-    tags: ["Edge AI", "Radar", "Optimization"],
-    excerpt:
-      "A practical walkthrough of deploying compact CNNs and transformers on constrained edge hardware with deterministic latency goals.",
-    cover: "/placeholder.svg",
-  },
-  {
-    id: "ew-countermeasures",
-    title: "Modern EW Countermeasures: Designing for Adversarial Robustness",
-    date: "2025-08-10",
-    tags: ["Electronic Warfare", "Security"],
-    excerpt:
-      "From signal agility to model hardening: techniques that improve survivability of autonomous sensing systems in contested environments.",
-    cover: "/placeholder.svg",
-  },
-  {
-    id: "sensor-fusion-pipelines",
-    title: "Real-time Sensor Fusion Pipelines with React + WebGPU",
-    date: "2025-07-02",
-    tags: ["WebGPU", "Fusion", "Frontend"],
-    excerpt:
-      "Building a responsive situational UI that streams, fuses, and visualizes multi-sensor telemetry at 60 FPS on the web.",
-    cover: "/placeholder.svg",
-  },
-];
+import { getBlogPosts, type BlogPost } from "@/integrations/firebase/blogService";
+import { Loader2 } from "lucide-react";
 
 const Blogs = () => {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const data = await getBlogPosts();
+        setPosts(data);
+      } catch (error) {
+        console.error("Error fetching blog posts:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -51,6 +33,7 @@ const Blogs = () => {
       { "@type": "ListItem", position: 2, name: "Blog", item: "https://www.stravextechnologies.com/blogs" },
     ],
   };
+
   return (
     <div className="min-h-screen bg-gradient-hero bg-grid pt-24 pb-16">
       <SEO
@@ -70,44 +53,56 @@ const Blogs = () => {
           </p>
         </header>
 
-        <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {demoPosts.map((post) => (
-          <Card key={post.id} className="bg-card border-border overflow-hidden hover:shadow-card transition-all duration-300 hover:-translate-y-1">
-            <div className="aspect-[16/9] w-full bg-muted/30">
-              <img
-                src={post.cover}
-                alt={post.title}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </div>
-            <CardHeader className="space-y-3">
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <time dateTime={post.date}>{new Date(post.date).toLocaleDateString()}</time>
-                <div className="flex gap-2 flex-wrap">
-                  {post.tags.map((t) => (
-                    <Badge key={t} variant="secondary" className="px-2 py-0.5">
-                      {t}
-                    </Badge>
-                  ))}
-                </div>
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : (
+          <section className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.length === 0 ? (
+              <div className="col-span-full text-center py-12 text-muted-foreground">
+                No blog posts available at the moment. Check back soon!
               </div>
-              <h3 className="text-xl font-semibold leading-snug text-foreground">{post.title}</h3>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground line-clamp-3">{post.excerpt}</p>
-              <div className="mt-4">
-                <Link
-                  to={`#post-${post.id}`}
-                  className="text-primary hover:underline text-sm font-medium"
-                >
-                  Read more
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-        </section>
+            ) : (
+              posts.map((post) => (
+                <Card key={post.id} className="bg-card border-border overflow-hidden hover:shadow-card transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
+                  <div className="aspect-[16/9] w-full bg-muted/30">
+                    <img
+                      src={post.coverImage}
+                      alt={post.title}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                  <CardHeader className="space-y-3 flex-none">
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <time dateTime={post.createdAt}>{new Date(post.createdAt).toLocaleDateString()}</time>
+                      <div className="flex gap-2 flex-wrap">
+                        {post.tags.slice(0, 3).map((t) => (
+                          <Badge key={t} variant="secondary" className="px-2 py-0.5">
+                            {t}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    <h3 className="text-xl font-semibold leading-snug text-foreground line-clamp-2">{post.title}</h3>
+                  </CardHeader>
+                  <CardContent className="flex-1 flex flex-col justify-between">
+                    <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{post.excerpt}</p>
+                    <div>
+                      <Link
+                        to={`/blogs/${post.id}`}
+                        className="text-primary hover:underline text-sm font-medium"
+                      >
+                        Read more
+                      </Link>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))
+            )}
+          </section>
+        )}
       </div>
     </div>
   );
