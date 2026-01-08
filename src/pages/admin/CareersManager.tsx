@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { 
   Table, 
@@ -13,34 +11,36 @@ import {
   TableRow 
 } from '@/components/ui/table';
 import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
+import { 
+  Plus, 
+  Pencil, 
+  Trash2, 
+  MoreHorizontal, 
+  Eye, 
+  Loader2, 
+  Calendar, 
+  AlertCircle 
+} from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import { useNavigate, Link } from 'react-router-dom';
+import { 
+  getCareerPosts, 
+  deleteCareerPost, 
+  type CareerPost 
+} from '@/integrations/firebase/careerService';
+import { 
   Dialog, 
   DialogContent, 
   DialogHeader, 
-  DialogTitle, 
-  DialogTrigger 
+  DialogFooter, 
+  DialogTitle 
 } from '@/components/ui/dialog';
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  ExternalLink,
-  Calendar,
-  Briefcase,
-  MapPin,
-  Clock
-} from 'lucide-react';
-import { 
-  collection, 
-  getDocs, 
-  addDoc, 
-  updateDoc, 
-  deleteDoc,
-  doc,
-  query, 
-  orderBy, 
-  Timestamp
-} from 'firebase/firestore';
-import { db } from '@/lib/firebase';
+import { formatDate } from '@/utils/dateUtils';
 
 interface JobOpening {
   id: string;
@@ -421,7 +421,7 @@ const CareersManager: React.FC = () => {
                       <div className="flex items-center space-x-2">
                         <Calendar className="h-4 w-4 text-muted-foreground" />
                         <span className="text-sm">
-                          {job.createdAt.toDate().toLocaleDateString()}
+                          {formatDate(job.createdAt)}
                         </span>
                       </div>
                     </TableCell>

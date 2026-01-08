@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Loader2, ArrowLeft, Calendar, User } from 'lucide-react';
-import SEO from '@/components/SEO';
-import { getBlogPostById, type BlogPost as BlogPostType } from '@/integrations/firebase/blogService';
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Calendar, Clock, User, Share2, Loader2 } from "lucide-react";
+import SEO from "@/components/SEO";
+import { getBlogPosts, type BlogPost } from "@/integrations/firebase/blogService";
+import { formatDateWithMonthName } from "@/utils/dateUtils";
 import parse from 'html-react-parser';
 import DOMPurify from 'dompurify';
 
 const BlogPost = () => {
     const { id } = useParams<{ id: string }>();
-    const [post, setPost] = useState<BlogPostType | null>(null);
+    const [post, setPost] = useState<BlogPost | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
@@ -18,7 +20,8 @@ const BlogPost = () => {
         const fetchPost = async () => {
             if (!id) return;
             try {
-                const data = await getBlogPostById(id);
+                const posts = await getBlogPosts();
+                const data = posts.find(p => p.id === id);
                 if (data) {
                     setPost(data);
                 } else {
@@ -82,11 +85,7 @@ const BlogPost = () => {
                         <div className="flex items-center gap-6 text-muted-foreground text-sm">
                             <div className="flex items-center">
                                 <Calendar className="mr-2 h-4 w-4" />
-                                {new Date(post.createdAt).toLocaleDateString(undefined, {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric'
-                                })}
+                                {formatDateWithMonthName(post.createdAt)}
                             </div>
                             <div className="flex items-center">
                                 <User className="mr-2 h-4 w-4" />

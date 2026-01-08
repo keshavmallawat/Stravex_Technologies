@@ -18,6 +18,7 @@ import {
   Timestamp
 } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { formatDate } from '@/utils/dateUtils';
 
 interface DashboardStats {
   totalContacts: number;
@@ -230,7 +231,7 @@ const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-muted-foreground">
-                      {contact.created_at.toDate().toLocaleDateString()}
+                      {formatDate(contact.created_at)}
                     </p>
                   </div>
                 </div>
@@ -268,7 +269,7 @@ const AdminDashboard: React.FC = () => {
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-muted-foreground">
-                      {blog.created_at.toDate().toLocaleDateString()}
+                      {formatDate(blog.created_at)}
                     </p>
                   </div>
                 </div>
