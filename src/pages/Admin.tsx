@@ -1,9 +1,25 @@
+import React from 'react';
+import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { useNavigate } from 'react-router-dom';
+import { 
+  MessageSquare, 
+  FileText, 
+  Users, 
+  TrendingUp,
+  Calendar,
+  BarChart3,
+  Activity,
+  ArrowUpRight,
+  RefreshCw,
+  Mail,
+  User,
+  Trash2
+} from 'lucide-react';
+import { formatDate } from '@/utils/dateUtils';
 import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { getContactSubmissions, deleteContactSubmission } from "@/integrations/firebase/contactService";
-import { RefreshCw, Mail, User, MessageSquare, Calendar, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import SEO from "@/components/SEO";
@@ -67,8 +83,8 @@ const Admin = () => {
     fetchSubmissions();
   }, []);
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString();
+  const formatDateString = (dateString: string) => {
+    return formatDate(dateString);
   };
 
   return (
@@ -198,7 +214,7 @@ const Admin = () => {
                         </div>
                         <div className="flex items-center space-x-2">
                           <Badge variant="outline" className="text-xs">
-                            {formatDate(submission.created_at)}
+                            {formatDateString(submission.created_at)}
                           </Badge>
                           <Button
                             variant="ghost"

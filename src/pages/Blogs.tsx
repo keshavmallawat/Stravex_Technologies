@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { getBlogPosts, type BlogPost } from "@/integrations/firebase/blogService";
 import { Loader2 } from "lucide-react";
+import { formatDate } from "@/utils/dateUtils";
 
 const Blogs = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -76,7 +77,7 @@ const Blogs = () => {
                   </div>
                   <CardHeader className="space-y-3 flex-none">
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
-                      <time dateTime={post.createdAt}>{new Date(post.createdAt).toLocaleDateString()}</time>
+                      <time dateTime={post.createdAt}>{formatDate(post.createdAt)}</time>
                       <div className="flex gap-2 flex-wrap">
                         {post.tags.slice(0, 3).map((t) => (
                           <Badge key={t} variant="secondary" className="px-2 py-0.5">

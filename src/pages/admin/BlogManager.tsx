@@ -40,6 +40,7 @@ import {
   DialogFooter,
   DialogTitle
 } from '@/components/ui/dialog';
+import { formatDate } from '@/utils/dateUtils';
 
 const BlogManager: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -146,10 +147,10 @@ const BlogManager: React.FC = () => {
                   <TableCell>{post.views || 0}</TableCell>
                   <TableCell>
                     <div className="flex flex-col text-xs text-muted-foreground">
-                      <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+                      <span>{formatDate(post.createdAt)}</span>
                       {post.status === 'scheduled' && post.scheduledDate && (
                         <span className="text-orange-500">
-                          Due: {new Date(post.scheduledDate).toLocaleDateString()}
+                          Due: {formatDate(post.scheduledDate)}
                         </span>
                       )}
                     </div>

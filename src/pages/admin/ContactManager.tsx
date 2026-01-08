@@ -34,6 +34,7 @@ import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { collection, addDoc, doc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/integrations/firebase/config';
+import { formatDate, formatDateTime } from '@/utils/dateUtils';
 
 const COLLECTION_NAME = 'contact_submissions';
 
@@ -114,7 +115,7 @@ const ContactManager: React.FC = () => {
         Email: contact.email,
         Phone: contact.phone || 'N/A',
         Message: contact.message,
-        'Date Submitted': new Date(contact.created_at).toLocaleString()
+        'Date Submitted': formatDate(contact.created_at)
       }))
     );
     
@@ -241,7 +242,7 @@ const ContactManager: React.FC = () => {
                         <div className="flex items-center space-x-2">
                           <Calendar className="h-4 w-4 text-muted-foreground" />
                           <span className="text-sm">
-                            {new Date(contact.created_at).toLocaleDateString()}
+                            {formatDate(contact.created_at)}
                           </span>
                         </div>
                       </TableCell>
@@ -296,7 +297,7 @@ const ContactManager: React.FC = () => {
                                   <div>
                                     <label className="text-sm font-medium text-muted-foreground">Submitted</label>
                                     <p className="text-foreground">
-                                      {new Date(selectedContact.created_at).toLocaleString()}
+                                      {formatDateTime(selectedContact.created_at)}
                                     </p>
                                   </div>
                                 </div>
