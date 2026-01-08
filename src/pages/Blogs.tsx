@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
-import { getBlogPosts, type BlogPost } from "@/integrations/firebase/blogService";
+import { getBlogPosts, type BlogPost, incrementBlogView } from "@/integrations/firebase/blogService";
 import { Loader2, X, ZoomIn } from "lucide-react";
 import { formatDate } from "@/utils/dateUtils";
 
@@ -11,6 +11,16 @@ const Blogs = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handlePostClick = async (postId: string) => {
+    // Increment view count when user clicks to read post
+    try {
+      await incrementBlogView(postId);
+    } catch (error) {
+      console.error('Error incrementing view:', error);
+      // Don't block navigation, just log error
+    }
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -90,14 +100,21 @@ const Blogs = () => {
                         ))}
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold leading-snug text-foreground line-clamp-2">{post.title}</h3>
+                    <Link
+                      to={`/blogs/${post.id}`}
+                      className="text-xl font-semibold leading-snug text-foreground line-clamp-2 hover:text-primary transition-colors"
+                      onClick={() => handlePostClick(post.id)}
+                    >
+                      {post.title}
+                    </Link>
                   </CardHeader>
                   <CardContent className="flex-1 flex flex-col justify-between">
                     <p className="text-sm text-muted-foreground line-clamp-3 mb-4">{post.excerpt}</p>
                     <div>
                       <Link
                         to={`/blogs/${post.id}`}
-                        className="text-primary hover:underline text-sm font-medium"
+                        className="inline-flex items-center text-primary hover:text-primary/80 transition-colors"
+                        onClick={() => handlePostClick(post.id)}
                       >
                         Read more
                       </Link>

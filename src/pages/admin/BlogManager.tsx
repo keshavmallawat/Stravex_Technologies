@@ -24,7 +24,9 @@ import {
   Eye,
   Loader2,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  RefreshCw,
+  TrendingUp
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate, Link } from 'react-router-dom';
@@ -46,6 +48,8 @@ const BlogManager: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [viewManageId, setViewManageId] = useState<string | null>(null);
+  const [customViews, setCustomViews] = useState<string>('');
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -75,6 +79,29 @@ const BlogManager: React.FC = () => {
       toast({ title: "Error", description: "Failed to delete post", variant: "destructive" });
     } finally {
       setDeleteId(null);
+    }
+  };
+
+  const handleViewManage = (postId: string) => {
+    setViewManageId(postId);
+    const post = posts.find(p => p.id === postId);
+    setCustomViews(post?.views?.toString() || '0');
+  };
+
+  const handleUpdateViews = async () => {
+    if (!viewManageId) return;
+    try {
+      const newViews = parseInt(customViews) || 0;
+      // Update the post in state
+      setPosts(posts.map(p => 
+        p.id === viewManageId ? { ...p, views: newViews } : p
+      ));
+      toast({ title: "Success", description: `Views updated to ${newViews}` });
+      setViewManageId(null);
+      setCustomViews('');
+    } catch (error) {
+      console.error(error);
+      toast({ title: "Error", description: "Failed to update views", variant: "destructive" });
     }
   };
 
@@ -171,9 +198,12 @@ const BlogManager: React.FC = () => {
                             <Eye className="mr-2 h-4 w-4" /> Preview
                           </Link>
                         </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleViewManage(post.id)}>
+                          <TrendingUp className="mr-2 h-4 w-4" /> Manage Views
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                           onClick={() => setDeleteId(post.id)}
-                          className="text-destructive focus:text-destructive"
+                          className="text-destructive"
                         >
                           <Trash2 className="mr-2 h-4 w-4" /> Delete
                         </DropdownMenuItem>
