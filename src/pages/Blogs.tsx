@@ -11,11 +11,19 @@ const Blogs = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [viewedPosts, setViewedPosts] = useState<Set<string>>(new Set());
 
   const handlePostClick = async (postId: string) => {
+    // Check if this post was already viewed in this session
+    if (viewedPosts.has(postId)) {
+      return; // Don't increment if already viewed
+    }
+    
     // Increment view count when user clicks to read post
     try {
       await incrementBlogView(postId);
+      // Mark this post as viewed in this session
+      setViewedPosts(prev => new Set(prev).add(postId));
     } catch (error) {
       console.error('Error incrementing view:', error);
       // Don't block navigation, just log error
@@ -114,6 +122,7 @@ const Blogs = () => {
                       <Link
                         to={`/blogs/${post.id}`}
                         className="inline-flex items-center text-primary hover:text-primary/80 transition-colors"
+                        onClick={() => handlePostClick(post.id)}
                       >
                         Read more
                       </Link>
