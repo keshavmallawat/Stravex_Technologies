@@ -146,7 +146,7 @@ const Index = () => {
                   <img
                     src="/iitb-logo.png"
                     alt="IIT Bombay - SINE Business Incubator"
-                    className="max-w-full max-h-full w-auto h-auto object-contain opacity-80 group-hover:opacity-100 transition-opacity"
+                    className="max-w-full max-h-full w-auto h-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-300 rounded-lg hover:scale-110"
                   />
                 </div>
                 <div className="space-y-3">
@@ -169,7 +169,7 @@ const Index = () => {
                   <img
                     src="/magic-logo.png"
                     alt="Marathwada Accelerator for Growth and Incubation Council"
-                    className="max-w-full max-h-full w-auto h-auto object-contain scale-150 opacity-80 group-hover:opacity-100 transition-opacity"
+                    className="max-w-full max-h-full w-auto h-auto object-contain scale-150 opacity-80 group-hover:opacity-100 transition-all duration-300 rounded-lg hover:scale-125"
                   />
                 </div>
                 <div className="space-y-3">
@@ -192,7 +192,7 @@ const Index = () => {
                   <img
                     src="/iit-ropar-logo.png"
                     alt="IIT Ropar Technology Business Incubator Foundation"
-                    className="max-w-full max-h-full w-auto h-auto object-contain opacity-80 group-hover:opacity-100 transition-opacity"
+                    className="max-w-full max-h-full w-auto h-auto object-contain opacity-80 group-hover:opacity-100 transition-all duration-300 rounded-lg hover:scale-110"
                   />
                 </div>
                 <div className="space-y-3">
