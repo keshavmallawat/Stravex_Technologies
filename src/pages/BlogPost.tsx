@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Calendar, Clock, User, Share2, Loader2, X, ZoomIn } from "lucide-react";
 import SEO from "@/components/SEO";
-import { getBlogPosts, type BlogPost } from "@/integrations/firebase/blogService";
+import { getBlogPosts, type BlogPost, incrementBlogView } from "@/integrations/firebase/blogService";
 import { formatDateWithMonthName } from "@/utils/dateUtils";
 import parse from 'html-react-parser';
 import DOMPurify from 'dompurify';
@@ -25,6 +25,8 @@ const BlogPost = () => {
                 const data = posts.find(p => p.id === id);
                 if (data) {
                     setPost(data);
+                    // Increment view count when post is loaded
+                    await incrementBlogView(id);
                 } else {
                     setError(true);
                 }
