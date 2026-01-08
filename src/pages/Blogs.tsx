@@ -4,12 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import SEO from "@/components/SEO";
 import { getBlogPosts, type BlogPost } from "@/integrations/firebase/blogService";
-import { Loader2 } from "lucide-react";
+import { Loader2, X, ZoomIn } from "lucide-react";
 import { formatDate } from "@/utils/dateUtils";
 
 const Blogs = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -67,13 +68,16 @@ const Blogs = () => {
             ) : (
               posts.map((post) => (
                 <Card key={post.id} className="bg-card border-border overflow-hidden hover:shadow-card transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
-                  <div className="aspect-[16/9] w-full bg-muted/30">
+                  <div className="aspect-[16/9] w-full bg-muted/30 relative group cursor-pointer" onClick={() => setSelectedImage(post.coverImage)}>
                     <img
                       src={post.coverImage}
                       alt={post.title}
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200">
+                      <ZoomIn className="h-8 w-8 text-white" />
+                    </div>
                   </div>
                   <CardHeader className="space-y-3 flex-none">
                     <div className="flex items-center justify-between text-xs text-muted-foreground">
@@ -105,6 +109,35 @@ const Blogs = () => {
           </section>
         )}
       </div>
+
+      {/* Image Viewer Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedImage(null)}
+        >
+          <div 
+            className="relative max-w-6xl max-h-[90vh] bg-white rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-4 right-4 z-10 bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
+              aria-label="Close image viewer"
+            >
+              <X className="h-6 w-6 text-gray-800" />
+            </button>
+
+            {/* Image */}
+            <img
+              src={selectedImage}
+              alt="Blog cover image full view"
+              className="w-full h-full object-contain rounded-lg"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -15,7 +15,8 @@ const contactSchema = z.object({
   company: z.string().trim().nonempty({ message: "Company name is required" }).max(100, { message: "Company name must be less than 100 characters" }),
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255, { message: "Email must be less than 255 characters" }),
   phone: z.string().trim().optional(),
-  message: z.string().trim().nonempty({ message: "Message is required" }).max(1000, { message: "Message must be less than 1000 characters" })
+  message: z.string().trim().nonempty({ message: "Message is required" }).max(1000, { message: "Message must be less than 1000 characters" }),
+  attachment: z.any().optional()
 });
 
 const Contact = () => {
@@ -32,7 +33,8 @@ const Contact = () => {
     company: "",
     email: "",
     phone: "",
-    message: ""
+    message: "",
+    attachment: null as File | null
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
