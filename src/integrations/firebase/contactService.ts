@@ -43,6 +43,7 @@ export const getContactSubmissions = async (): Promise<ContactSubmission[]> => {
         name: data.name,
         company: data.company || "",
         email: data.email,
+        phone: data.phone || "",
         message: data.message,
         created_at: data.created_at instanceof Timestamp 
           ? data.created_at.toDate().toISOString() 
@@ -71,6 +72,7 @@ export const subscribeContactSubmissions = (
         name: data.name,
         company: data.company || "",
         email: data.email,
+        phone: data.phone || "",
         message: data.message,
         created_at: data.created_at instanceof Timestamp 
           ? data.created_at.toDate().toISOString() 

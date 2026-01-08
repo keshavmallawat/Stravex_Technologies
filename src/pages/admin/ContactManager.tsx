@@ -25,6 +25,7 @@ import {
   Calendar,
   Mail,
   User,
+  Phone,
   MessageSquare
 } from 'lucide-react';
 import { getContactSubmissions, subscribeContactSubmissions, deleteContactSubmission } from '@/integrations/firebase/contactService';
@@ -43,6 +44,7 @@ interface ContactSubmissionRow {
   message: string;
   created_at: string; // ISO string from service
   company?: string;
+  phone?: string;
 }
 
 const ContactManager: React.FC = () => {
@@ -62,6 +64,7 @@ const ContactManager: React.FC = () => {
         name: s.name,
         email: s.email,
         company: s.company,
+        phone: s.phone,
         message: s.message,
         created_at: typeof s.created_at === 'string' ? s.created_at : new Date().toISOString()
       }));
@@ -76,6 +79,8 @@ const ContactManager: React.FC = () => {
     const filtered = contacts.filter(contact =>
       contact.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       contact.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (contact.company && contact.company.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (contact.phone && contact.phone.toLowerCase().includes(searchTerm.toLowerCase())) ||
       contact.message.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredContacts(filtered);
@@ -105,9 +110,10 @@ const ContactManager: React.FC = () => {
     const worksheet = XLSX.utils.json_to_sheet(
       filteredContacts.map(contact => ({
         Name: contact.name,
-        Email: contact.email,
-        Message: contact.message,
         Company: contact.company || 'N/A',
+        Email: contact.email,
+        Phone: contact.phone || 'N/A',
+        Message: contact.message,
         'Date Submitted': new Date(contact.created_at).toLocaleString()
       }))
     );
@@ -176,7 +182,7 @@ const ContactManager: React.FC = () => {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search contacts by name, email, or subject..."
+            placeholder="Search contacts by name, company, email, phone, or message..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -191,7 +197,9 @@ const ContactManager: React.FC = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
+                <TableHead>Company</TableHead>
                 <TableHead>Email</TableHead>
+                <TableHead>Phone</TableHead>
                 <TableHead>Message</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Actions</TableHead>
@@ -208,10 +216,23 @@ const ContactManager: React.FC = () => {
                         </div>
                       </TableCell>
                       <TableCell>
+                        <span className="text-sm">{contact.company}</span>
+                      </TableCell>
+                      <TableCell>
                         <div className="flex items-center space-x-2">
                           <Mail className="h-4 w-4 text-muted-foreground" />
                           <span>{contact.email}</span>
                         </div>
+                      </TableCell>
+                      <TableCell>
+                        {contact.phone ? (
+                          <div className="flex items-center space-x-2">
+                            <Phone className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-sm">{contact.phone}</span>
+                          </div>
+                        ) : (
+                          <span className="text-sm text-muted-foreground">-</span>
+                        )}
                       </TableCell>
                       <TableCell>
                         <span className="text-sm line-clamp-1">{contact.message}</span>
