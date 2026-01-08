@@ -114,7 +114,6 @@ const Blogs = () => {
                       <Link
                         to={`/blogs/${post.id}`}
                         className="inline-flex items-center text-primary hover:text-primary/80 transition-colors"
-                        onClick={() => handlePostClick(post.id)}
                       >
                         Read more
                       </Link>

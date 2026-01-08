@@ -25,8 +25,7 @@ const BlogPost = () => {
                 const data = posts.find(p => p.id === id);
                 if (data) {
                     setPost(data);
-                    // Increment view count when post is loaded
-                    await incrementBlogView(id);
+                    // View count is already tracked when clicking from listing page
                 } else {
                     setError(true);
                 }
