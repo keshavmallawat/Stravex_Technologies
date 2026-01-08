@@ -12,8 +12,9 @@ import SEO from "@/components/SEO";
 
 const contactSchema = z.object({
   name: z.string().trim().nonempty({ message: "Name is required" }).max(100, { message: "Name must be less than 100 characters" }),
-  company: z.string().trim().max(100, { message: "Company name must be less than 100 characters" }).optional(),
+  company: z.string().trim().nonempty({ message: "Company name is required" }).max(100, { message: "Company name must be less than 100 characters" }),
   email: z.string().trim().email({ message: "Please enter a valid email address" }).max(255, { message: "Email must be less than 255 characters" }),
+  phone: z.string().trim().optional(),
   message: z.string().trim().nonempty({ message: "Message is required" }).max(1000, { message: "Message must be less than 1000 characters" })
 });
 
@@ -30,6 +31,7 @@ const Contact = () => {
     name: "",
     company: "",
     email: "",
+    phone: "",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -95,8 +97,9 @@ const Contact = () => {
       // Submit to Firebase
       await createContactSubmission({
         name: validatedData.name,
-        company: validatedData.company || "",
+        company: validatedData.company,
         email: validatedData.email,
+        phone: validatedData.phone || "",
         message: validatedData.message
       });
 
@@ -107,7 +110,7 @@ const Contact = () => {
       });
 
       // Reset form
-      setFormData({ name: "", company: "", email: "", message: "" });
+      setFormData({ name: "", company: "", email: "", phone: "", message: "" });
 
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -186,7 +189,7 @@ const Contact = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="company" className="text-sm font-medium text-foreground">
-                    Company Name
+                    Company Name *
                   </Label>
                   <Input
                     id="company"
@@ -194,9 +197,26 @@ const Contact = () => {
                     type="text"
                     value={formData.company}
                     onChange={handleInputChange}
+                    required
                     maxLength={100}
                     className="bg-input border-border text-foreground"
-                    placeholder="Enter your company name (optional)"
+                    placeholder="Enter your company name"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="text-sm font-medium text-foreground">
+                    Contact Number
+                  </Label>
+                  <Input
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleInputChange}
+                    maxLength={20}
+                    className="bg-input border-border text-foreground"
+                    placeholder="Enter your contact number (optional)"
                   />
                 </div>
 
