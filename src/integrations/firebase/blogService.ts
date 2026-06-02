@@ -14,12 +14,7 @@ import {
   serverTimestamp,
   Timestamp
 } from 'firebase/firestore';
-import {
-  ref,
-  uploadBytesResumable,
-  getDownloadURL
-} from 'firebase/storage';
-import { db, storage } from '@/lib/firebase';
+import { db } from '@/lib/firebase';
 
 const COLLECTION_NAME = 'blogs';
 
@@ -69,39 +64,72 @@ export interface BlogPostCreate {
   scheduledDate?: string;
 }
 
-// Upload blog image with progress callback support
+// Upload blog image to Cloudinary using Unsigned Uploads
 export const uploadBlogImage = (
   file: File,
   onProgress?: (progress: number) => void
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     try {
-      const storageRef = ref(storage, `blog-images/${Date.now()}_${file.name}`);
-      const uploadTask = uploadBytesResumable(storageRef, file);
+      const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+      const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          if (onProgress) {
-            onProgress(Math.round(progress));
+      if (!cloudName || !uploadPreset) {
+        throw new Error('Cloudinary configuration missing. Please verify VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET in your environment.');
+      }
+
+      const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+      const xhr = new XMLHttpRequest();
+      const formData = new FormData();
+
+      xhr.open('POST', url, true);
+
+      // Track progress using native XHR upload listener
+      if (onProgress && xhr.upload) {
+        xhr.upload.addEventListener('progress', (e) => {
+          if (e.lengthComputable) {
+            const percentComplete = Math.round((e.loaded / e.total) * 100);
+            onProgress(percentComplete);
           }
-        },
-        (error) => {
-          console.error('Error uploading blog image:', error);
-          reject(error);
-        },
-        async () => {
-          try {
-            const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
-            resolve(downloadUrl);
-          } catch (urlError) {
-            reject(urlError);
+        });
+      }
+
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              const response = JSON.parse(xhr.responseText);
+              const secureUrl = response.secure_url;
+              
+              // Automatically apply Cloudinary transformations: auto-format, auto-quality compression
+              const optimizedUrl = secureUrl.replace('/upload/', '/upload/f_auto,q_auto/');
+              
+              resolve(optimizedUrl);
+            } catch (err) {
+              console.error('Failed to parse Cloudinary response:', err);
+              reject(new Error('Failed to process upload response from Cloudinary.'));
+            }
+          } else {
+            try {
+              const errResponse = JSON.parse(xhr.responseText);
+              const errMsg = errResponse.error?.message || `Upload failed with status ${xhr.status}`;
+              reject(new Error(errMsg));
+            } catch {
+              reject(new Error(`Upload failed with status code ${xhr.status}`));
+            }
           }
         }
-      );
+      };
+
+      xhr.onerror = () => {
+        reject(new Error('Network error during upload to Cloudinary.'));
+      };
+
+      formData.append('file', file);
+      formData.append('upload_preset', uploadPreset);
+      xhr.send(formData);
     } catch (error) {
-      console.error('Error initiating upload:', error);
+      console.error('Error initiating upload to Cloudinary:', error);
       reject(error);
     }
   });

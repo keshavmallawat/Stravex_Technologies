@@ -6,7 +6,6 @@ const firebaseConfig = {
   apiKey: "AIzaSyBSx3NuOiNEgPigR27Q20M45rV2TAhUXd8",
   authDomain: "stravex-eb597.firebaseapp.com",
   projectId: "stravex-eb597",
-  storageBucket: "stravex-eb597.firebasestorage.app",
   messagingSenderId: "350812898993",
   appId: "1:350812898993:web:f4e8586f1103add4b98490",
   measurementId: "G-WGFKMTR775"
