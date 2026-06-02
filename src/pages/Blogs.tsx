@@ -6,12 +6,14 @@ import SEO from "@/components/SEO";
 import { getBlogPosts, type BlogPost, incrementBlogView } from "@/integrations/firebase/blogService";
 import { Loader2, X, ZoomIn } from "lucide-react";
 import { formatDate } from "@/utils/dateUtils";
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 const Blogs = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [viewedPosts, setViewedPosts] = useState<Set<string>>(new Set());
+  const [imageErrors, setImageErrors] = useState<Set<string>>(new Set());
 
   const handlePostClick = async (postId: string) => {
     // Check if this post was already viewed in this session
@@ -86,16 +88,19 @@ const Blogs = () => {
             ) : (
               posts.map((post) => (
                 <Card key={post.id} className="bg-card border-border overflow-hidden hover:shadow-card transition-all duration-300 hover:-translate-y-1 flex flex-col h-full">
-                  <div className="aspect-[16/9] w-full bg-muted/30 relative group cursor-pointer" onClick={() => setSelectedImage(post.coverImage)}>
-                    <img
+                  <div className="aspect-[16/9] w-full bg-muted/30 relative group cursor-pointer" onClick={() => post.coverImage && !imageErrors.has(post.id) && setSelectedImage(post.coverImage)}>
+                    <ImageWithFallback
                       src={post.coverImage}
                       alt={post.title}
                       className="w-full h-full object-cover"
                       loading="lazy"
+                      onError={() => setImageErrors(prev => new Set(prev).add(post.id))}
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200">
-                      <ZoomIn className="h-8 w-8 text-white" />
-                    </div>
+                    {post.coverImage && !imageErrors.has(post.id) && (
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200">
+                        <ZoomIn className="h-8 w-8 text-white" />
+                      </div>
+                    )}
                   </div>
                   <CardHeader className="space-y-3 flex-none">
                     <div className="flex items-center justify-between text-xs text-muted-foreground">

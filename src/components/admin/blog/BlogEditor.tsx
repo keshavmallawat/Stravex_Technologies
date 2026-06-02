@@ -37,6 +37,7 @@ import {
 import { RichTextEditor } from '@/components/admin/blog/RichTextEditor';
 import { SEOPanel } from '@/components/admin/blog/SEOPanel';
 import { MediaLibrary } from '@/components/admin/blog/MediaLibrary';
+import ImageWithFallback from '@/components/ImageWithFallback';
 
 const formSchema = z.object({
     title: z.string().min(5, 'Title must be at least 5 characters'),
@@ -293,7 +294,7 @@ const BlogEditor = () => {
                                     <FormLabel>Cover Image</FormLabel>
                                     {coverImage ? (
                                         <div className="relative aspect-video rounded-md overflow-hidden border">
-                                            <img src={coverImage} alt="Cover" className="w-full h-full object-cover" />
+                                            <ImageWithFallback src={coverImage} alt="Cover" className="w-full h-full object-cover" />
                                             <div className="absolute inset-0 bg-black/40 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                                                 <MediaLibrary onSelect={setCoverImage} trigger={<Button variant="secondary" size="sm">Change</Button>} />
                                                 <Button variant="destructive" size="sm" onClick={() => setCoverImage('')}>Remove</Button>

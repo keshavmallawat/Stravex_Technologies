@@ -26,7 +26,8 @@ import {
   Calendar,
   AlertCircle,
   RefreshCw,
-  TrendingUp
+  TrendingUp,
+  Image as ImageIcon
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useNavigate, Link } from 'react-router-dom';
@@ -43,6 +44,7 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 import { formatDate } from '@/utils/dateUtils';
+import ImageWithFallback from '@/components/ImageWithFallback';
 
 const BlogManager: React.FC = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -151,15 +153,14 @@ const BlogManager: React.FC = () => {
                 <TableRow key={post.id}>
                   <TableCell>
                     <div className="flex items-center space-x-3">
-                      {post.coverImage ? (
-                        <img
-                          src={post.coverImage}
-                          alt=""
-                          className="h-10 w-16 object-cover rounded bg-muted"
-                        />
-                      ) : (
-                        <div className="h-10 w-16 bg-muted rounded"></div>
-                      )}
+                      <ImageWithFallback
+                        src={post.coverImage}
+                        alt=""
+                        className="h-10 w-16 object-cover rounded"
+                        fallbackClassName="h-10 w-16 rounded"
+                        fallbackText=""
+                        fallbackIcon={<ImageIcon className="h-4 w-4 opacity-40 text-primary" />}
+                      />
                       <div>
                         <p className="font-medium line-clamp-1">{post.title}</p>
                         <p className="text-xs text-muted-foreground">/{post.slug}</p>
