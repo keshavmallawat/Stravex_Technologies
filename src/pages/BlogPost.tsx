@@ -9,6 +9,7 @@ import { getBlogPosts, type BlogPost, incrementBlogView } from "@/integrations/f
 import { formatDateWithMonthName } from "@/utils/dateUtils";
 import parse from 'html-react-parser';
 import DOMPurify from 'dompurify';
+import ImageWithFallback from "@/components/ImageWithFallback";
 
 const BlogPost = () => {
     const { id } = useParams<{ id: string }>();
@@ -16,6 +17,7 @@ const BlogPost = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [imageError, setImageError] = useState(false);
 
     // Share functionality
     const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
@@ -121,18 +123,19 @@ const BlogPost = () => {
                         </div>
                     </header>
 
-                    {post.coverImage && (
-                        <div className="aspect-video w-full rounded-xl overflow-hidden mb-12 bg-muted/30 border border-border shadow-lg relative group cursor-pointer" onClick={() => setSelectedImage(post.coverImage)}>
-                            <img
-                                src={post.coverImage}
-                                alt={post.title}
-                                className="w-full h-full object-cover"
-                            />
+                    <div className="aspect-video w-full rounded-xl overflow-hidden mb-12 bg-muted/30 border border-border shadow-lg relative group cursor-pointer" onClick={() => post.coverImage && !imageError && setSelectedImage(post.coverImage)}>
+                        <ImageWithFallback
+                            src={post.coverImage}
+                            alt={post.title}
+                            className="w-full h-full object-cover"
+                            onError={() => setImageError(true)}
+                        />
+                        {post.coverImage && !imageError && (
                             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200">
                                 <ZoomIn className="h-8 w-8 text-white" />
                             </div>
-                        </div>
-                    )}
+                        )}
+                    </div>
 
                     <div className="prose prose-invert max-w-none prose-lg prose-headings:font-heading prose-a:text-primary prose-img:rounded-xl prose-p:leading-relaxed prose-headings:scroll-m-20">
                         {parse(DOMPurify.sanitize(post.content))}
