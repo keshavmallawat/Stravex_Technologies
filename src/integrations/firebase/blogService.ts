@@ -71,12 +71,16 @@ export const uploadBlogImage = (
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     try {
-      const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-      const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
+      const rawCloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+      const rawUploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-      if (!cloudName || !uploadPreset) {
+      if (!rawCloudName || !rawUploadPreset) {
         throw new Error('Cloudinary configuration missing. Please verify VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET in your environment.');
       }
+
+      // Strip any outer quotes that may be parsed from env files
+      const cloudName = rawCloudName.replace(/['"]/g, '');
+      const uploadPreset = rawUploadPreset.replace(/['"]/g, '');
 
       const url = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
       const xhr = new XMLHttpRequest();
@@ -96,6 +100,8 @@ export const uploadBlogImage = (
 
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
+          console.log(`Cloudinary response status: ${xhr.status}`);
+          console.log(`Cloudinary response text: ${xhr.responseText}`);
           if (xhr.status >= 200 && xhr.status < 300) {
             try {
               const response = JSON.parse(xhr.responseText);
@@ -127,6 +133,17 @@ export const uploadBlogImage = (
 
       formData.append('file', file);
       formData.append('upload_preset', uploadPreset);
+
+      // Log exact FormData fields before sending
+      console.log('--- CLOUDINARY UPLOAD REQUEST PAYLOAD ---');
+      console.log('URL:', url);
+      console.log('Cloud Name:', cloudName);
+      console.log('Upload Preset:', uploadPreset);
+      for (const pair of (formData as any).entries()) {
+        console.log(`Field: ${pair[0]} =`, pair[1] instanceof File ? `File (${pair[1].name}, ${pair[1].size} bytes)` : pair[1]);
+      }
+      console.log('-----------------------------------------');
+
       xhr.send(formData);
     } catch (error) {
       console.error('Error initiating upload to Cloudinary:', error);
