@@ -16,7 +16,7 @@ import {
 } from 'firebase/firestore';
 import {
   ref,
-  uploadBytes,
+  uploadBytesResumable,
   getDownloadURL
 } from 'firebase/storage';
 import { db, storage } from '@/lib/firebase';
@@ -69,16 +69,42 @@ export interface BlogPostCreate {
   scheduledDate?: string;
 }
 
-// Upload blog image
-export const uploadBlogImage = async (file: File): Promise<string> => {
-  try {
-    const storageRef = ref(storage, `blog-images/${Date.now()}_${file.name}`);
-    const snapshot = await uploadBytes(storageRef, file);
-    return await getDownloadURL(snapshot.ref);
-  } catch (error) {
-    console.error('Error uploading blog image:', error);
-    throw error;
-  }
+// Upload blog image with progress callback support
+export const uploadBlogImage = (
+  file: File,
+  onProgress?: (progress: number) => void
+): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const storageRef = ref(storage, `blog-images/${Date.now()}_${file.name}`);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          if (onProgress) {
+            onProgress(Math.round(progress));
+          }
+        },
+        (error) => {
+          console.error('Error uploading blog image:', error);
+          reject(error);
+        },
+        async () => {
+          try {
+            const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+            resolve(downloadUrl);
+          } catch (urlError) {
+            reject(urlError);
+          }
+        }
+      );
+    } catch (error) {
+      console.error('Error initiating upload:', error);
+      reject(error);
+    }
+  });
 };
 
 // Create a new blog post
