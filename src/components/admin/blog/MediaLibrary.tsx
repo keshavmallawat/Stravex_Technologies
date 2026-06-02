@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { uploadBlogImage } from '@/integrations/firebase/blogService';
-import { Image as ImageIcon, Upload, Loader2, Link as LinkIcon } from 'lucide-react';
+import { Image as ImageIcon, Upload, Loader2, Link as LinkIcon, RefreshCw } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 interface MediaLibraryProps {
@@ -24,12 +24,62 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onSelect, trigger })
     const [activeTab, setActiveTab] = useState('upload');
     const [uploading, setUploading] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [uploadState, setUploadState] = useState<'idle' | 'uploading' | 'success' | 'error'>('idle');
     const [imageUrl, setImageUrl] = useState('');
     const { toast } = useToast();
 
+    // Revoke object URL on unmount to prevent memory leaks
+    useEffect(() => {
+        return () => {
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+        };
+    }, [previewUrl]);
+
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
-            setSelectedFile(e.target.files[0]);
+            const file = e.target.files[0];
+            
+            console.log('Selected file for upload:', {
+                name: file.name,
+                type: file.type,
+                size: `${(file.size / 1024 / 1024).toFixed(2)} MB`
+            });
+
+            // 1. File Type Validation
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+            if (!allowedTypes.includes(file.type)) {
+                toast({
+                    title: "Invalid File Type",
+                    description: "Only JPG, PNG, WEBP, and GIF images are supported.",
+                    variant: "destructive"
+                });
+                return;
+            }
+
+            // 2. File Size Validation (5MB max)
+            const maxSize = 5 * 1024 * 1024;
+            if (file.size > maxSize) {
+                toast({
+                    title: "File Too Large",
+                    description: "Image size must be less than 5MB.",
+                    variant: "destructive"
+                });
+                return;
+            }
+
+            setSelectedFile(file);
+            setUploadState('idle');
+            setUploadProgress(0);
+
+            // 3. Set Preview URL
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
+            setPreviewUrl(URL.createObjectURL(file));
         }
     };
 
@@ -38,21 +88,40 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onSelect, trigger })
 
         try {
             setUploading(true);
-            const url = await uploadBlogImage(selectedFile);
+            setUploadState('uploading');
+            setUploadProgress(0);
+            
+            console.log('Initiating upload for:', selectedFile.name);
+
+            const url = await uploadBlogImage(selectedFile, (progress) => {
+                setUploadProgress(progress);
+            });
+
+            console.log('Upload completed successfully. URL:', url);
+            setUploadState('success');
             onSelect(url);
-            setOpen(false);
-            toast({ title: "Success", description: "Image uploaded and selected" });
+            handleOpenChange(false);
+            toast({ title: "Success", description: "Image uploaded and selected successfully!" });
         } catch (error: any) {
-            console.error('Upload error details:', error);
-            // Display detailed message to help diagnose permissions or config errors
+            console.error('Image upload failed. Error details:', error);
+            setUploadState('error');
+            
+            let errorMessage = error?.message || "An unknown error occurred during upload.";
+            if (error?.code === 'storage/unauthorized') {
+                errorMessage = "Security Rules Denied: You do not have permission to write to this storage bucket. Please verify that your account is registered as an authorized administrator.";
+            } else if (error?.code === 'storage/canceled') {
+                errorMessage = "Upload was canceled.";
+            } else if (error?.code === 'storage/unknown') {
+                errorMessage = "Unknown storage error. Check your internet connection or console logs.";
+            }
+
             toast({
                 title: "Upload Failed",
-                description: error?.message || "Failed to upload image. Verify Firebase Storage rules or use an Image URL.",
+                description: errorMessage,
                 variant: "destructive"
             });
         } finally {
             setUploading(false);
-            setSelectedFile(null);
         }
     };
 
@@ -67,8 +136,15 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onSelect, trigger })
     const handleOpenChange = (isOpen: boolean) => {
         setOpen(isOpen);
         if (!isOpen) {
+            if (previewUrl) {
+                URL.revokeObjectURL(previewUrl);
+            }
             setSelectedFile(null);
+            setPreviewUrl(null);
             setImageUrl('');
+            setUploadProgress(0);
+            setUploadState('idle');
+            setUploading(false);
             setActiveTab('upload');
         }
     };
@@ -89,35 +165,74 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onSelect, trigger })
 
                 <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                     <TabsList className="grid w-full grid-cols-2">
-                        <TabsTrigger value="upload">Upload File</TabsTrigger>
-                        <TabsTrigger value="url">Image URL</TabsTrigger>
+                        <TabsTrigger value="upload" disabled={uploadState === 'uploading'}>Upload File</TabsTrigger>
+                        <TabsTrigger value="url" disabled={uploadState === 'uploading'}>Image URL</TabsTrigger>
                     </TabsList>
 
                     <TabsContent value="upload" className="space-y-4 py-4">
-                        <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 cursor-pointer hover:bg-muted/50 transition-colors bg-muted/20">
-                            <Input
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                id="file-upload"
-                                onChange={handleFileChange}
-                            />
-                            <label htmlFor="file-upload" className="flex flex-col items-center cursor-pointer w-full h-full">
-                                {selectedFile ? (
-                                    <>
-                                        <ImageIcon className="h-10 w-10 text-primary mb-2" />
-                                        <p className="text-sm font-medium text-foreground max-w-[250px] truncate">{selectedFile.name}</p>
-                                        <p className="text-xs text-muted-foreground">{(selectedFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Upload className="h-10 w-10 text-muted-foreground mb-2 animate-pulse" />
-                                        <p className="text-sm font-medium text-foreground">Click to select image file</p>
-                                        <p className="text-xs text-muted-foreground">PNG, JPG, GIF up to 5MB</p>
-                                    </>
+                        {previewUrl ? (
+                            <div className="flex flex-col items-center justify-center border border-border/50 rounded-lg p-4 bg-muted/10 relative">
+                                <div className="aspect-video w-full rounded overflow-hidden mb-3 border border-border bg-muted/20 relative group">
+                                    <img
+                                        src={previewUrl}
+                                        alt="Preview"
+                                        className="w-full h-full object-contain"
+                                    />
+                                    {uploadState !== 'uploading' && (
+                                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                            <label htmlFor="file-upload" className="cursor-pointer">
+                                                <Button variant="secondary" size="sm" asChild>
+                                                    <span>Change File</span>
+                                                </Button>
+                                            </label>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="w-full text-center text-xs text-muted-foreground mb-2 truncate px-4">
+                                    <span className="font-semibold text-foreground">{selectedFile?.name}</span> ({((selectedFile?.size || 0) / 1024 / 1024).toFixed(2)} MB)
+                                </div>
+
+                                {uploadState === 'uploading' && (
+                                    <div className="w-full space-y-1.5 px-4 mt-2">
+                                        <div className="flex justify-between text-[11px] text-muted-foreground">
+                                            <span className="flex items-center gap-1.5"><Loader2 className="h-3 w-3 animate-spin text-primary" /> Uploading...</span>
+                                            <span className="font-medium text-foreground">{uploadProgress}%</span>
+                                        </div>
+                                        <div className="w-full bg-muted rounded-full h-1.5 overflow-hidden">
+                                            <div 
+                                                className="bg-primary h-1.5 rounded-full transition-all duration-300 ease-out" 
+                                                style={{ width: `${uploadProgress}%` }}
+                                            />
+                                        </div>
+                                    </div>
                                 )}
-                            </label>
-                        </div>
+
+                                {uploadState === 'error' && (
+                                    <div className="text-center mt-2">
+                                        <p className="text-xs text-destructive font-medium mb-1">Upload failed</p>
+                                        <Button variant="ghost" size="sm" onClick={handleUpload} className="h-8 text-xs text-primary hover:text-primary/80">
+                                            <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> Retry Upload
+                                        </Button>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 cursor-pointer hover:bg-muted/50 transition-colors bg-muted/20">
+                                <label htmlFor="file-upload" className="flex flex-col items-center cursor-pointer w-full h-full text-center">
+                                    <Upload className="h-10 w-10 text-muted-foreground mb-2 animate-pulse" />
+                                    <p className="text-sm font-medium text-foreground">Click to select image file</p>
+                                    <p className="text-xs text-muted-foreground mt-1">PNG, JPG, WEBP, GIF up to 5MB</p>
+                                </label>
+                            </div>
+                        )}
+                        <input
+                            type="file"
+                            accept="image/jpeg, image/png, image/webp, image/gif"
+                            className="hidden"
+                            id="file-upload"
+                            onChange={handleFileChange}
+                            disabled={uploadState === 'uploading'}
+                        />
                     </TabsContent>
 
                     <TabsContent value="url" className="space-y-4 py-4">
@@ -141,11 +256,11 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onSelect, trigger })
                 </Tabs>
 
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => handleOpenChange(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={uploadState === 'uploading'}>Cancel</Button>
                     {activeTab === 'upload' ? (
-                        <Button onClick={handleUpload} disabled={!selectedFile || uploading}>
-                            {uploading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            {uploading ? 'Uploading...' : 'Upload & Select'}
+                        <Button onClick={handleUpload} disabled={!selectedFile || uploadState === 'uploading'}>
+                            {uploadState === 'uploading' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                            {uploadState === 'uploading' ? 'Uploading...' : 'Upload & Select'}
                         </Button>
                     ) : (
                         <Button onClick={handleSelectUrl} disabled={!imageUrl.trim()}>
