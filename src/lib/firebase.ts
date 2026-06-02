@@ -30,7 +30,8 @@ googleProvider.setCustomParameters({
 // Authorized admin emails
 export const AUTHORIZED_ADMIN_EMAILS = [
   'mallawatkeshav@gmail.com',
-  'krishnamallawat29@gmail.com'
+  'krishnamallawat29@gmail.com',
+  'tishita203@gmail.com'
 ];
 
 export default app;
