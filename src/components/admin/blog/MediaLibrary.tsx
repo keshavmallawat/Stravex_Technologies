@@ -106,14 +106,7 @@ export const MediaLibrary: React.FC<MediaLibraryProps> = ({ onSelect, trigger })
             console.error('Image upload failed. Error details:', error);
             setUploadState('error');
             
-            let errorMessage = error?.message || "An unknown error occurred during upload.";
-            if (error?.code === 'storage/unauthorized') {
-                errorMessage = "Security Rules Denied: You do not have permission to write to this storage bucket. Please verify that your account is registered as an authorized administrator.";
-            } else if (error?.code === 'storage/canceled') {
-                errorMessage = "Upload was canceled.";
-            } else if (error?.code === 'storage/unknown') {
-                errorMessage = "Unknown storage error. Check your internet connection or console logs.";
-            }
+            const errorMessage = error?.message || "An unknown error occurred during upload. Please verify your Cloudinary upload preset and cloud name.";
 
             toast({
                 title: "Upload Failed",
