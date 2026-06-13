@@ -147,3 +147,355 @@
       0 0 40px hsl(var(--primary) / 0.35);
   }
 }
+
+/* Custom typography overrides to match premium long-form publication spacing (Medium, Stripe, Vercel) */
+.prose, .prose-lg {
+  max-width: 760px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.prose p, .prose-lg p {
+  margin-top: 0 !important;
+  margin-bottom: 1.5rem !important;
+  line-height: 1.75 !important;
+  font-size: 1.125rem !important; /* Premium 18px body font size */
+  color: hsl(var(--foreground) / 0.85) !important;
+}
+
+.prose h2, .prose-lg h2 {
+  font-size: 1.875rem !important; /* Large, bold headers */
+  font-weight: 700 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 1rem !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.015em !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.prose h3, .prose-lg h3 {
+  font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.75rem !important;
+  margin-bottom: 0.5rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.01em !important;
+  color: hsl(var(--foreground) / 0.95) !important;
+}
+
+.prose ul, .prose-lg ul, .prose ol, .prose-lg ol {
+  margin-top: 0.75rem !important;
+  margin-bottom: 1.25rem !important;
+  padding-left: 1.625rem !important;
+}
+
+.prose ul, .prose-lg ul {
+  list-style-type: disc !important;
+}
+
+.prose ol, .prose-lg ol {
+  list-style-type: decimal !important;
+}
+
+.prose li, .prose-lg li {
+  margin-top: 0.35rem !important;
+  margin-bottom: 0.35rem !important;
+  line-height: 1.65 !important;
+  font-size: 1.125rem !important;
+  color: hsl(var(--foreground) / 0.85) !important;
+}
+
+/* Premium Links Underline Effect */
+.prose a, .prose-lg a {
+  color: hsl(var(--primary)) !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  border-bottom: 1px solid hsl(var(--primary) / 0.2) !important;
+  transition: all 0.2s ease !important;
+}
+
+.prose a:hover, .prose-lg a:hover {
+  border-bottom-color: hsl(var(--primary)) !important;
+  background-color: hsl(var(--primary) / 0.05) !important;
+}
+
+/* Premium Editorial Overrides for Long-form Articles */
+
+/* Lead Paragraph (First Paragraph inside the main blog content body) */
+.prose > p:first-of-type, .prose-lg > p:first-of-type {
+  font-size: 1.2rem !important; /* 22px text */
+  line-height: 1.75 !important;
+  color: hsl(var(--foreground) / 0.95) !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 1.25rem !important;
+}
+
+/* Horizontal Dividers */
+.prose hr, .prose-lg hr {
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, hsl(var(--border) / 0.8), transparent) !important;
+  border: none !important;
+  margin: 2.5rem 0 !important;
+}
+
+/* Blockquote & Callouts */
+.prose blockquote, .prose-lg blockquote {
+  background: hsl(var(--primary) / 0.03) !important;
+  border-left: 4px solid hsl(var(--primary)) !important;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
+  padding: 1.25rem 1.75rem !important;
+  margin: 1.75rem 0 !important;
+  color: hsl(var(--foreground) / 0.9) !important;
+  font-style: italic !important;
+  font-weight: 400;
+}
+
+/* If Blockquote has a list, transform it into a "Key Takeaways" panel */
+.prose blockquote:has(ul)::before, .prose-lg blockquote:has(ul)::before,
+.prose blockquote:has(ol)::before, .prose-lg blockquote:has(ol)::before {
+  content: "KEY TAKEAWAYS";
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: hsl(var(--primary));
+  margin-bottom: 1rem;
+  font-style: normal;
+}
+
+.prose blockquote:has(ul), .prose-lg blockquote:has(ul),
+.prose blockquote:has(ol), .prose-lg blockquote:has(ol) {
+  font-style: normal !important;
+}
+
+.prose blockquote ul, .prose-lg blockquote ul {
+  list-style-type: none !important;
+  padding-left: 0 !important;
+  margin: 0 !important;
+}
+
+.prose blockquote li, .prose-lg blockquote li {
+  position: relative !important;
+  padding-left: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  font-size: 1.05rem !important;
+  color: hsl(var(--foreground) / 0.9) !important;
+}
+
+.prose blockquote li::before, .prose-lg blockquote li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: hsl(var(--primary));
+  font-weight: 700;
+}
+
+/* Bold statistics styling inside callouts */
+.prose blockquote strong, .prose-lg blockquote strong {
+  color: hsl(var(--primary)) !important;
+  font-weight: 600 !important;
+}
+
+
+/* ============================================================
+   BLOG PROSE — Published blog body rendering
+   Applied via .blog-prose on the main article body wrapper.
+   This ensures TipTap HTML (paragraphs, headings, lists,
+   blockquotes, text-align, bold, italic, links, images)
+   renders exactly as composed in the editor.
+   ============================================================ */
+
+/* Preserve TipTap text-align style attribute on any element */
+.blog-prose [style*="text-align"] {
+  text-align: inherit;
+}
+.blog-prose [style*="text-align: left"]   { text-align: left !important; }
+.blog-prose [style*="text-align: center"] { text-align: center !important; }
+.blog-prose [style*="text-align: right"]  { text-align: right !important; }
+.blog-prose [style*="text-align: justify"]{ text-align: justify !important; }
+
+/* Paragraphs — clear spacing between blocks */
+.blog-prose p {
+  margin-top: 0 !important;
+  margin-bottom: 1.1rem !important;
+  line-height: 1.75 !important;
+  font-size: 1.0625rem !important;
+  color: hsl(var(--foreground) / 0.88) !important;
+}
+
+/* Empty paragraphs from editor (blank lines) must take up real space */
+.blog-prose p:empty {
+  margin-bottom: 0 !important;
+  min-height: 0 !important;
+  display: block;
+}
+
+/* Headings */
+.blog-prose h1 {
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  margin-top: 2.5rem !important;
+  margin-bottom: 0.75rem !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.blog-prose h2 {
+  font-size: 1.5rem !important;
+  font-weight: 700 !important;
+  margin-top: 2rem !important;
+  margin-bottom: 0.6rem !important;
+  line-height: 1.3 !important;
+  letter-spacing: -0.015em !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.blog-prose h3 {
+  font-size: 1.2rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+  margin-bottom: 0.5rem !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.01em !important;
+  color: hsl(var(--foreground) / 0.95) !important;
+}
+
+.blog-prose h4, .blog-prose h5, .blog-prose h6 {
+  font-size: 1.05rem !important;
+  font-weight: 600 !important;
+  margin-top: 1.25rem !important;
+  margin-bottom: 0.4rem !important;
+  color: hsl(var(--foreground) / 0.9) !important;
+}
+
+/* Unordered lists */
+.blog-prose ul {
+  list-style-type: disc !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Ordered lists */
+.blog-prose ol {
+  list-style-type: decimal !important;
+  padding-left: 1.5rem !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.blog-prose li {
+  margin-top: 0.3rem !important;
+  margin-bottom: 0.3rem !important;
+  line-height: 1.65 !important;
+  font-size: 1.0625rem !important;
+  color: hsl(var(--foreground) / 0.85) !important;
+}
+
+/* Nested lists */
+.blog-prose li > ul,
+.blog-prose li > ol {
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+}
+
+/* Horizontal rules */
+.blog-prose hr {
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent, hsl(var(--border) / 0.8), transparent) !important;
+  border: none !important;
+  margin: 2rem 0 !important;
+}
+
+/* Blockquotes */
+.blog-prose blockquote {
+  background: hsl(var(--primary) / 0.04) !important;
+  border-left: 4px solid hsl(var(--primary)) !important;
+  border-radius: 0 0.5rem 0.5rem 0 !important;
+  padding: 1rem 1.5rem !important;
+  margin: 1.5rem 0 !important;
+  color: hsl(var(--foreground) / 0.9) !important;
+  font-style: italic !important;
+}
+
+.blog-prose blockquote p {
+  margin-bottom: 0 !important;
+}
+
+/* Links */
+.blog-prose a {
+  color: hsl(var(--primary)) !important;
+  text-decoration: none !important;
+  font-weight: 500 !important;
+  border-bottom: 1px solid hsl(var(--primary) / 0.3) !important;
+  transition: border-color 0.2s ease, background-color 0.2s ease !important;
+}
+
+.blog-prose a:hover {
+  border-bottom-color: hsl(var(--primary)) !important;
+  background-color: hsl(var(--primary) / 0.05) !important;
+}
+
+/* Inline code */
+.blog-prose code {
+  font-size: 0.875em !important;
+  background: hsl(var(--muted)) !important;
+  color: hsl(var(--primary)) !important;
+  padding: 0.15em 0.4em !important;
+  border-radius: 0.3rem !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+}
+
+/* Code blocks */
+.blog-prose pre {
+  background: hsl(var(--card)) !important;
+  border: 1px solid hsl(var(--border) / 0.6) !important;
+  border-radius: 0.5rem !important;
+  padding: 1rem 1.25rem !important;
+  margin: 1.5rem 0 !important;
+  overflow-x: auto !important;
+  font-size: 0.875rem !important;
+  line-height: 1.65 !important;
+}
+
+.blog-prose pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  color: hsl(var(--foreground) / 0.9) !important;
+}
+
+/* Images */
+.blog-prose img {
+  border-radius: 0.75rem !important;
+  margin: 1.5rem auto !important;
+  display: block !important;
+  max-width: 100% !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+/* Strong/Bold, Em/Italic, and Underline */
+.blog-prose strong {
+  font-weight: 700 !important;
+  color: hsl(var(--foreground)) !important;
+}
+
+.blog-prose em {
+  font-style: italic !important;
+  color: hsl(var(--foreground) / 0.9) !important;
+}
+
+.blog-prose u {
+  text-decoration: underline !important;
+}
+
+/* First heading that immediately follows nothing (no orphan top margin) */
+.blog-prose > h1:first-child,
+.blog-prose > h2:first-child,
+.blog-prose > h3:first-child {
+  margin-top: 0 !important;
+}
+
+
+
