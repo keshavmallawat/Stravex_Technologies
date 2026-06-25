@@ -123,8 +123,8 @@ const BlogPostPage = () => {
       <div className="min-h-screen pt-24 pb-16 flex flex-col justify-center items-center bg-gradient-hero text-center px-4">
         <h1 className="text-3xl font-bold mb-4 font-heading">Publication not found</h1>
         <p className="text-muted-foreground mb-8">The strategic briefing or research report does not exist or has been archived.</p>
-        <Link to="/blogs">
-          <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Blogs</Button>
+        <Link to="/news">
+          <Button variant="outline"><ArrowLeft className="mr-2 h-4 w-4" /> Back to News</Button>
         </Link>
       </div>
     );
@@ -141,14 +141,14 @@ const BlogPostPage = () => {
       <SEO
         title={`${post.seo?.metaTitle || post.title} – Stravex Technologies`}
         description={post.seo?.metaDescription || post.excerpt}
-        path={`/blogs/${post.id}`}
+        path={`/news/${post.id}`}
         image={post.seo?.ogImage || post.coverImage}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Navigation Breadcrumb */}
-        <Link to="/blogs" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary mb-8 transition-colors">
-          <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> Back to Blogs
+        <Link to="/news" className="inline-flex items-center text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-primary mb-8 transition-colors">
+          <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> Back to News
         </Link>
 
         {/* Publication Sheet */}
