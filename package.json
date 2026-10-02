@@ -13,8 +13,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "format": "prettier -w .",
     "format:check": "prettier -c .",
-    "preview": "vite preview",
-    "migrate:supabase-to-firebase": "node migrate-to-firebase.js"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
