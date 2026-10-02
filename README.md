@@ -1,6 +1,6 @@
 # Stravex Technologies
 
-Source for the company website at **[stravextechnologies.com](https://www.stravextechnologies.com/)**: a public marketing site with a protected admin area for publishing news and managing enquiries and job postings.
+React + Firebase version of the Stravex Technologies company website: a public marketing site with a protected admin area for publishing news and managing enquiries and job postings.
 
 A server-rendered rebuild with a full CMS lives in [stravex-technologies](https://github.com/keshavmallawat/stravex-technologies).
 
@@ -53,7 +53,7 @@ Only the Cloudinary values are read from the environment (see `.env.example`). T
 
 ## Deployment
 
-Every push to `main` runs the `CI` workflow (lint, type check, build) and the `Deploy` workflow, which publishes `dist/` to GitHub Pages under the custom domain in `CNAME`. The Cloudinary values are supplied to the build as repository variables:
+Every push to `main` runs the `CI` workflow (lint, type check, build) and the `Deploy` workflow, which publishes `dist/` to GitHub Pages. The Cloudinary values are supplied to the build as repository variables:
 
 - `VITE_CLOUDINARY_CLOUD_NAME`
 - `VITE_CLOUDINARY_UPLOAD_PRESET`
@@ -72,7 +72,3 @@ src/
 public/         static assets, sitemap, robots
 firestore.rules, firestore.indexes.json   Firestore configuration
 ```
-
-## License
-
-Copyright (c) Stravex Technologies. All rights reserved.
