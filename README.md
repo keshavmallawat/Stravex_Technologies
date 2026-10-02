@@ -1,8 +1,8 @@
-# Stravex Technologies
+# Stravex Technologies v1
 
-React + Firebase version of the Stravex Technologies company website: a public marketing site with a protected admin area for publishing news and managing enquiries and job postings.
+The original (v1) React + Firebase version of the Stravex Technologies company website: a public marketing site with a protected admin area for publishing news and managing enquiries and job postings.
 
-A server-rendered rebuild with a full CMS lives in [stravex-technologies](https://github.com/keshavmallawat/stravex-technologies).
+A server-rendered rebuild with a full CMS lives in [stravex-technologies-v2](https://github.com/keshavmallawat/stravex-technologies-v2).
 
 ## Features
 
@@ -28,8 +28,8 @@ A server-rendered rebuild with a full CMS lives in [stravex-technologies](https:
 Requirements: Node.js 20 or newer.
 
 ```bash
-git clone https://github.com/keshavmallawat/Stravex_Technologies.git
-cd Stravex_Technologies
+git clone https://github.com/keshavmallawat/stravex-technologies-v1.git
+cd stravex-technologies-v1
 npm ci
 cp .env.example .env   # add your Cloudinary values
 npm run dev
